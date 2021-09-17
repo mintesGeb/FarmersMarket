@@ -1,9 +1,39 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
+let getDB = require("../utils/database").getDB;
+let ObjectId = require("../utils/database").ObjectId;
+let authorizeFarmers = require("../controller/authController").authorizeFarmers;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('users: respond with a resource');
+router.get("/", authorizeFarmers, function (req, res, next) {
+  let users = getDB()
+    .collection("users")
+    .find()
+    .toArray()
+    .then((data) => {
+      res.json({ data });
+    });
+});
+
+router.get("/:query", authorizeFarmers, (req, res, next) => {
+  let user = getDB()
+    .collection("users")
+    .findOne({ username: req.params.query })
+    .then((data) => {
+      if (!data) {
+        getDB()
+          .collection("users")
+          .findOne({ _id: new ObjectId(req.params.query) })
+          .then((data) => {
+            if (!data) {
+              res.json("no data");
+            } else {
+              res.json({ data });
+            }
+          });
+      } else {
+        res.json({ data });
+      }
+    });
 });
 
 module.exports = router;

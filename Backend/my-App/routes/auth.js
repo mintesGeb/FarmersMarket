@@ -1,13 +1,10 @@
 var express = require("express");
 var router = express.Router();
+let authController = require("../controller/authController");
 
 /* GET users listing. */
-router.post("/login", function (req, res, next) {
-  res.send("auth: respond with a resource");
-});
-router.use("/", function (req, res, next) {
-  console.log("auth: respond to everyone with a resource");
-  next();
-});
+router.post("/login", authController.login);
+
+router.use("/", authController.authorize);
 
 module.exports = router;
