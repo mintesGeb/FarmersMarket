@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const mongoConnect = require("./utils/database").mongoConnect;
 
 var authRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
@@ -38,6 +39,8 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-app.listen("1234", () => {
-  console.log("App has started on port 1234");
+mongoConnect(() => {
+  app.listen("1234", () => {
+    console.log("App has started on port 1234");
+  });
 });
