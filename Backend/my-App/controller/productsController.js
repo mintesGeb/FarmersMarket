@@ -12,11 +12,11 @@ exports.insertProduct = (req, res, next) => {
 exports.deleteproduct = (req, res) => {
     Products.deleteProduct(req.params.id)
         .then(result => {
-            if (result.deleteCount == 0) {
+            if (result.deletedCount == 0) {
                 res.json({
                     status: "Success", message: "Product is not available."
                 })
-            } else if (result.deleteCount == 1) {
+            } else if (result.deletedCount == 1) {
                 res.json({ status: "Success", message: "Product is deleted." })
             }
         })
