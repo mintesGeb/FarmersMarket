@@ -19,10 +19,10 @@ exports.getOneCustomer = (req,res)=>{
 exports.deleteCustomerbyId=(req,res)=>{
     Customer.deleteCustomerById(id)
     .then(result=>{
-        if (result.deletedCount = 0) {
-            res.json({ status: "Success", message: "" })
-        } else if (result.deletedCount = 1) {
-            res.json({ status: "Success", message: "customer deleted." })
+        if (result.deletedCount == 0) {
+            res.json({ status: "Success", message: "Customer not found ." })
+        } else if (result.deletedCount == 1) {
+            res.json({ status: "Success", message: "Customer deleted." })
         }
     })
     .catch((err)=>console.log(err))};
