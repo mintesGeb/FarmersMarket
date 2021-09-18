@@ -7,7 +7,7 @@ let secret = "farmersMarketSecret";
 exports.login = async (req, res, next) => {
   try {
     let user = req.body;
-    // console.log(user);
+    console.log(user);
     let token;
     let collection;
 
@@ -15,7 +15,9 @@ exports.login = async (req, res, next) => {
       if (user.email === "super@user" && user.password === "superuser") {
         token = jwt.sign({ email: "super@user", role: "superuser" }, secret);
         res.json({ token });
-      } else if (user.role === "farmer") {
+      }
+    } else {
+      if (user.role === "farmer") {
         collection = getDB().collection("farmersCollection");
       } else {
         collection = getDB().collection("customersCollection");
