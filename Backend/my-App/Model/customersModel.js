@@ -1,4 +1,4 @@
-const getDb = require('../utils/database');
+const getDB = require('../utils/database').getDB;
 const {ObjectId}  = require('../utils/database').ObjectId
 
 class Customer {
@@ -13,20 +13,20 @@ class Customer {
         this.status ='active'
     }
     save(){
-        const db = getDb()
+        const db = getDB()
       return  db.collection('customersCollection').insertOne(this)
     }
     static getAllCustomers(){
-        const db = getDb()
+        const db = getDB()
         return db.collection('customersCollection').find().toArray()
     }
     static getCustomerById(id){
-        const db = getDb()
+        const db = getDB()
         return db.collection('customersCollection').find({"_id":new ObjectId(id)}).toArray()
     }
 
     static deleteCustomerById(id){
-        const db = getDb()
+        const db = getDB()
         return db.collection('customersCollection').deleteOne({"_id":new ObjectId(id)})
     }
 
