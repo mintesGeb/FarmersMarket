@@ -43,8 +43,7 @@ exports.getOneProduct = (req, res) => {
 exports.updateProduct = (req,res)=>{
     Products.deleteProduct(req.params.id);
     const product = new Products(req.body.productName, req.body.price, req.body.catagory);
-    const copy = {...product};
-    copy._id = new ObjectId(req.params.id);
-    copy.save()
+    product._id = new ObjectId(req.params.id);
+    product.save()
     res.json({ status: "Success", message: "Product updated Successfully" })
 }
