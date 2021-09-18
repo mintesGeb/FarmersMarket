@@ -10,7 +10,7 @@ class Customer {
         this.role ='customer';
         this.cart =[];
         this.order =[];
-        this.statut ='active'
+        this.status ='active'
     }
     save(){
         const db = getDb()
