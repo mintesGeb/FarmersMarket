@@ -6,7 +6,7 @@ let authorizeFarmers = require("../controller/authController").authorizeFarmers;
 
 router.get("/", authorizeFarmers, function (req, res, next) {
   let users = getDB()
-    .collection("users")
+    .collection("farmersCollection")
     .find()
     .toArray()
     .then((data) => {
@@ -16,7 +16,7 @@ router.get("/", authorizeFarmers, function (req, res, next) {
 
 router.get("/:query", authorizeFarmers, (req, res, next) => {
   let user = getDB()
-    .collection("users")
+    .collection("farmersCollection")
     .findOne({ username: req.params.query })
     .then((data) => {
       if (!data) {

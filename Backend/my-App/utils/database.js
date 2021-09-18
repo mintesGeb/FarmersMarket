@@ -5,7 +5,7 @@ let _db;
 let mongoConnect = (callback) => {
   MongoClient.connect("mongodb://localhost:27017")
     .then((client) => {
-      _db = client.db("OnlineShopping");
+      _db = client.db("farmersMarket-db");
       callback();
     })
     .catch((err) => {

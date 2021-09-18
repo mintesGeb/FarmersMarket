@@ -9,14 +9,20 @@ exports.login = async (req, res, next) => {
     let user = req.body;
     // console.log(user);
     let token;
+    let collection;
 
-    if (user.email === "super@user" && user.password === "superuser") {
-      token = jwt.sign({ email: "super@user", role: "superuser" }, secret);
-      res.json({ token });
-    } else {
-      getDB()
-        .collection("users")
-        .findOne({ username: user.username, password: user.password })
+    if (user.role === "superuser") {
+      if (user.email === "super@user" && user.password === "superuser") {
+        token = jwt.sign({ email: "super@user", role: "superuser" }, secret);
+        res.json({ token });
+      } else if (user.role === "farmer") {
+        collection = getDB().collection("farmersCollection");
+      } else {
+        collection = getDB().collection("customersCollection");
+      }
+
+      collection
+        .findOne({ email: user.email, password: user.password })
         .then((data) => {
           if (data) {
             if (data.status === "inactive") {
@@ -59,7 +65,7 @@ exports.authorize = (req, res, next) => {
 };
 
 exports.authorizeFarmers = (req, res, next) => {
-  if (req.user.role === "admin") {
+  if (req.user.role === "farmer" && req.user.role === "superuser") {
     next();
   } else {
     return res.status(403).json({ error: "forbidden" });
