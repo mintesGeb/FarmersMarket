@@ -7,7 +7,7 @@ let ObjectId = require("../utils/database").ObjectId;
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   getDB()
-    .collection("product")
+    .collection("productsCollection")
     .find()
     .toArray()
     .then((data) => {
@@ -17,7 +17,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/:id", (req, res) => {
   getDB()
-    .collection("product")
+    .collection("productsCollection")
     .findOne({ _id: new ObjectId(req.params.id) })
     .then((data) => {
       if (!data) {
