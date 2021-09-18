@@ -2,16 +2,13 @@ const getDb = require('../utils/database');
 const {ObjectId}  = require('../utils/database').ObjectId
 
 class Customer {
-    constructor(fname,lname,email,password,role,status){
-        this.fname=fname;
-        this.lname=lname;
+    constructor(fname,lname,email,password){
+        this.fname= fname;
+        this.lname= lname;
         this.email= email;
-        this.password=[]
+        this.password= password;
         this.cart =[];
-        this.order=[];
-        this.role=role;
-        this.status ='active'
-
+        this.order =[];
     }
     save(){
         const db = getDb()
