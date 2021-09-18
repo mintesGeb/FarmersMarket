@@ -12,12 +12,12 @@ exports.insertProduct = (req, res, next) => {
 exports.deleteproduct = (req, res) => {
     Products.deleteProduct(req.params.id)
         .then(result => {
-            if (result.deleteCount = 0) {
+            if (result.deleteCount == 0) {
                 res.json({
-                    status: "Success", message: "User is not available."
+                    status: "Success", message: "Product is not available."
                 })
-            } else if (result.deleteCount = 1) {
-                res.json({ status: "Success", message: "User is deleted." })
+            } else if (result.deleteCount == 1) {
+                res.json({ status: "Success", message: "Product is deleted." })
             }
         })
         .catch(err => console.log(err));
@@ -40,7 +40,7 @@ exports.getOneProduct = (req, res) => {
         .catch(err => console.log(err))
 }
 
-exports.updateUser = (req,res)=>{
+exports.updateProduct = (req,res)=>{
     Products.deleteProduct(req.params.id);
     const product = new Products(req.body.productName, req.body.price, req.body.catagory);
     const copy = {...product};

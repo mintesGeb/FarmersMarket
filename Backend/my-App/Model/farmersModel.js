@@ -12,6 +12,7 @@ class Farmers {
         this.orders = [];
         this.reputation = 20;
         this.review = [];
+        this.status="active";
     }
 
     save() {
