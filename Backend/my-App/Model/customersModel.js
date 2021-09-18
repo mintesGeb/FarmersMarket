@@ -2,9 +2,9 @@ const getDb = require('../utils/database');
 const {ObjectId}  = require('../utils/database').ObjectId
 
 class Customer {
-    constructor(fname,lname,email,password){
-        this.fname= fname;
-        this.lname= lname;
+    constructor(firstName,lastName,email,password){
+        this.firstName= firstName;
+        this.lastName= lastName;
         this.email= email;
         this.password= password;
         this.role ='customer';
