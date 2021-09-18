@@ -27,11 +27,11 @@ exports.insertFarmer=(req,res)=>{
 }
 
 exports.deleteFarmer=(req,res)=>{
-    Farmers.deleteFarmer(id)
+    Farmers.deleteFarmer(req.params.id)
     .then(result=>{
-        if (result.deletedCount = 0) {
+        if (result.deletedCount == 0) {
             res.json({ status: "Success", message: "Farmer is not available." })
-        } else if (result.deletedCount = 1) {
+        } else if (result.deletedCount == 1) {
             res.json({ status: "Success", message: "Farmer is deleted." })
         }
     })
