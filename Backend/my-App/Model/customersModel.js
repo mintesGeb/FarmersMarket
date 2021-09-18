@@ -2,13 +2,15 @@ const getDb = require('../utils/database');
 const {ObjectId}  = require('../utils/database').ObjectId
 
 class Customer {
-    constructor(fname,lname,email,password,cart,order,role){
+    constructor(fname,lname,email,password,role,status){
         this.fname=fname;
         this.lname=lname;
         this.email= email;
+        this.password=[]
         this.cart =[];
         this.order=[];
-        this.role=role
+        this.role=role;
+        this.status ='active'
 
     }
     save(){
@@ -26,7 +28,7 @@ class Customer {
 
     static deleteCustomerById(id){
         const db = getDb()
-        return db.collection('customersCollection').deleteOne({"_id":new ObjectId(id)}).toArray()
+        return db.collection('customersCollection').deleteOne({"_id":new ObjectId(id)})
     }
 
 }
