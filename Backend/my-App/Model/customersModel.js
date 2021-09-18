@@ -7,8 +7,10 @@ class Customer {
         this.lname= lname;
         this.email= email;
         this.password= password;
+        this.role ='customer';
         this.cart =[];
         this.order =[];
+        this.statut ='active'
     }
     save(){
         const db = getDb()
