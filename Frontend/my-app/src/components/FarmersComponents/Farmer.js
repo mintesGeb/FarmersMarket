@@ -1,7 +1,10 @@
+
 function Farmer(props) {
+  const { _id, firstName, lastName } = { ...props.farmer }
   return (
     <div>
-      <p>{props.name}</p>
+      Farmer Name: <p>{firstName} {lastName}</p>
+      <button onClick={props.displayProducts}>Display products</button><hr />
     </div>
   );
 }

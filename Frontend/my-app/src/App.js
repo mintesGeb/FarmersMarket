@@ -8,6 +8,8 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Farmers from "./components/FarmersComponents/Farmers";
+import Products from "./components/ProductsComponents/Products";
+import ProductDetail from "./components/FarmersComponents/ProductDetail";
 
 export const LoginContext = React.createContext();
 
@@ -65,6 +67,9 @@ class App extends React.Component {
                   <Link to="/farmers">Farmers</Link>
                 </li>
                 <li>
+                  <Link to="/products">Products</Link>
+                </li>
+                <li>
                   <Link to="/logout" onClick={this.loggedOut}>
                     Logout
                   </Link>
@@ -81,9 +86,10 @@ class App extends React.Component {
             </LoginContext.Provider>
           </Route>
           <Route path="/register" component={Register} />
-
+          <Route path="/products" component={Products} />
           <Route path="/logout" component={Logout} />
           <Route path="/farmers" component={Farmers} />
+          <Route path="/farmer/product/:id" component={ProductDetail}/> 
         </div>
       </BrowserRouter>
     );
