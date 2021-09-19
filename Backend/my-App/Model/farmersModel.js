@@ -1,4 +1,4 @@
-const getDB = require('../utils/database')
+const getDB = require('../utils/database').getDB
 const ObjectId = require('../utils/database').ObjectId
 
 
