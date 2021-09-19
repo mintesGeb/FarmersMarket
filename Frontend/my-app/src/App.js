@@ -7,6 +7,7 @@ import axios from "axios";
 import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
+import Farmers from "./components/FarmersComponents/Farmers";
 
 export const LoginContext = React.createContext();
 
@@ -82,6 +83,7 @@ class App extends React.Component {
           <Route path="/register" component={Register} />
 
           <Route path="/logout" component={Logout} />
+          <Route path="/farmers" component={Farmers} />
         </div>
       </BrowserRouter>
     );

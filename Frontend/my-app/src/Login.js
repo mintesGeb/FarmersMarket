@@ -19,6 +19,7 @@ class Login extends React.Component {
     ) {
       console.log("Please enter Credentials");
     } else {
+      console.log(this.state.user);
       axios
         .post("http://localhost:1234/login", this.state.user)
         .then((response) => {
