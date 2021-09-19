@@ -7,7 +7,7 @@ import axios from "axios";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-axios.defaults.baseurl = "http://localhost:1234";
+axios.defaults.baseURL = "http://localhost:1234";
 
 ReactDOM.render(
   <React.StrictMode>

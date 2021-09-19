@@ -9,7 +9,7 @@ class Farmers extends React.Component {
   state = { farmers: [] };
 
   componentDidMount() {
-    axios.get("http://localhost:1234/farmers", auth()).then((response) => {
+    axios.get("/farmers", auth()).then((response) => {
       console.log(response.data.farmers);
       let copy = { ...this.state };
       copy.farmers = response.data.farmers;
