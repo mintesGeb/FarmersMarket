@@ -1,5 +1,5 @@
 const getDB = require('../utils/database').getDB;
-const {ObjectId}  = require('../utils/database').ObjectId
+const ObjectId  = require('../utils/database').ObjectId
 
 class Customer {
     constructor(firstName,lastName,email,password){
