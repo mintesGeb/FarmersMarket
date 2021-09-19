@@ -8,7 +8,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Farmers from "./components/FarmersComponents/Farmers";
-
+import Customers from "./components/CustomersComponents/Customers";
 export const LoginContext = React.createContext();
 
 class App extends React.Component {
@@ -64,6 +64,9 @@ class App extends React.Component {
                 <li>
                   <Link to="/farmers">Farmers</Link>
                 </li>
+                                <li>
+                  <Link to="/customers">Customers</Link>
+                </li>
                 <li>
                   <Link to="/logout" onClick={this.loggedOut}>
                     Logout
@@ -84,6 +87,7 @@ class App extends React.Component {
 
           <Route path="/logout" component={Logout} />
           <Route path="/farmers" component={Farmers} />
+          <Route path="/customers" component={Customers} />
         </div>
       </BrowserRouter>
     );
