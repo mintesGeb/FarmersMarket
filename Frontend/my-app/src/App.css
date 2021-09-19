@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.title {
+  margin: 20px auto;
+  padding: 30px;
+  background-color: burlywood;
+  height: 100px;
+}
+.general-margin {
+  margin: 15px;
+}
