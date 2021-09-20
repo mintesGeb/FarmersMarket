@@ -13,7 +13,7 @@ class Farmers {
         this.reputation = 20;
         this.review = [];
         this.role = "farmer"
-        this.status="active";
+        this.status = "active";
     }
 
     save() {
@@ -25,23 +25,124 @@ class Farmers {
 
     static getAll() {
         const db = getDB()
-       return db.collection('farmersCollection')
+        return db.collection('farmersCollection')
             .find()
             .toArray()
     }
 
 
-    static getFarmerById(id){
+    static getFarmerById(id) {
         const db = getDB()
-       return db.collection('farmersCollection')
-        .find({"_id":new ObjectId(id)})
-        .toArray()
+        return db.collection('farmersCollection')
+            .find({ "_id": new ObjectId(id) })
+            .toArray()
     }
 
-    static deleteFarmer(id){
+    static deleteFarmer(id) {
         const db = getDB()
-      return db.collection('farmersCollection')
-        .deleteOne({"_id":new ObjectId(id)})
+        return db.collection('farmersCollection')
+            .deleteOne({ "_id": new ObjectId(id) })
+    }
+
+    static addReview(id, review) {
+        const reviewId = new ObjectId();
+        const copy = { ...review };
+        copy.id = reviewId;
+        const db = getDB()
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "review": copy } })
+    }
+
+    static deleteReview(id, reviewId) {
+        const db = getDB()
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $pull: { "review": { "id": new ObjectId(reviewId) } } })
+    }
+
+
+    static addProduct(id, product) {
+        const copy = { ...product };
+        copy.p_id = new ObjectId();
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "products": copy } })
+    }
+
+    static deleteProduct(id, productId) {
+        const db = getDB()
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $pull: { "products": { "p_id": new ObjectId(productId) } } })
+    }
+
+
+    static addOrder(id, order) {
+        const copy = { ...order };
+        copy.o_id = new ObjectId();
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "orders": copy } })
+    }
+
+    static makeReady(id, orderId) {
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+                { $set: { "orders.$.status": "Ready" } });
+    }
+
+    static makeComplete(id, orderId) {
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+                { $set: { "orders.$.status": "Complete" } });
+    }
+
+    static activateStatus(id) {
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) },
+                { $set: { "status": "active" } });
+    }
+
+    static deactivateStatus(id) {
+        const db = getDB();
+        return db.collection('farmersCollection')
+            .updateOne({ "_id": new ObjectId(id) },
+                { $set: { "status": "inactive" } });
+    }
+
+
+    static getFarmerByEmail(email) {
+        const db = getDB()
+        return db.collection('farmersCollection')
+            .find({ "email": email })
+            .toArray()
+    }
+
+    static addReputation(id) {
+        const db = getDB();
+         return this.getFarmerById(id)
+            .then((result) => {
+                if (result[0].reputation < 10) {
+                    db.collection('farmersCollection')
+                        .updateOne({ "_id": new ObjectId(id) },
+                            { $set: { "reputation": result[0].reputation + 1 } });
+                };
+                return this.getFarmerById(id);
+            })
+    }
+
+    static deductReputation(id) {
+        const db = getDB();
+         return this.getFarmerById(id)
+            .then((result) => {
+                if (result[0].reputation > 0) {
+                    db.collection('farmersCollection')
+                        .updateOne({ "_id": new ObjectId(id) },
+                            { $set: { "reputation": result[0].reputation - 1 } });
+                };
+                return this.getFarmerById(id);
+            })
     }
 
 }
