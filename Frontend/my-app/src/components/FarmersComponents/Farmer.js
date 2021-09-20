@@ -14,7 +14,6 @@ function Farmer(props) {
       >
         Reviews
       </button>
-      <hr />
     </div>
   );
 }

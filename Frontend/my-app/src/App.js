@@ -12,6 +12,10 @@ import Customers from "./components/CustomersComponents/Customers";
 import Products from "./components/ProductsComponents/Products";
 import ProductDetail from "./components/FarmersComponents/ProductDetail";
 import Reviews from "./components/FarmersComponents/Reviews";
+import Orders from "./components/FarmersComponents/Orders";
+import Cart from "./components/CustomersComponents/Cart";
+import Profile from "./components/CustomersComponents/Profile";
+import CustOrders from "./components/CustomersComponents/Orders";
 
 export const LoginContext = React.createContext();
 
@@ -69,11 +73,17 @@ class App extends React.Component {
                   <Link to="/farmers">Farmers</Link>
                 </li>
                 <li>
-                  <Link to="/customers">Customers</Link>
-                </li>
-                <li>
                   <Link to="/products">Products</Link>
                 </li>
+
+                <li>
+                  <Link to="/customers">Customers</Link>
+                </li>
+
+                {/* <li>
+                  <Link to="/cart">Cart</Link>
+                </li> */}
+
                 <li>
                   <Link to="/logout" onClick={this.loggedOut}>
                     Logout
@@ -97,6 +107,10 @@ class App extends React.Component {
           <Route path="/customers" component={Customers} />
           <Route path="/farmer/product/:id" component={ProductDetail} />
           <Route path="/farmer/reviews/:id" component={Reviews} />
+          <Route path="/farmer/orders/:id" component={Orders} />
+          <Route path="/customers/cart/:id" component={Cart} />
+          <Route path="/customers/profile/:id" component={Profile} />
+          <Route path="/customers/orders/:id" component={CustOrders} />
         </div>
       </BrowserRouter>
     );
