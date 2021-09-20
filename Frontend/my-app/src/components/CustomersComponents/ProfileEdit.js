@@ -45,30 +45,30 @@ class ProfileEdit extends React.Component {
               value={this.state.customer.lastName}
               onChange={(event) => this.infoChanged(event)}
             />
-            <input
+            {/* <input
               name="status"
               type="text"
               value={this.state.customer.status}
               onChange={(event) => this.infoChanged(event)}
-            />
-            <input
+            /> */}
+            {/* <input
               name="email"
               type="text"
               value={this.state.customer.email}
               onChange={(event) => this.infoChanged(event)}
-            />
+            /> */}
             <input
               name="password"
               type="text"
               value={this.state.customer.password}
               onChange={(event) => this.infoChanged(event)}
             />
-            <input
+            {/* <input
               name="role"
               type="text"
               value={this.state.customer.role}
               onChange={(event) => this.infoChanged(event)}
-            />
+            /> */}
             <input
               className="btn btn-outline-dark general-margin"
               type="button"
