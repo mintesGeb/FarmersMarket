@@ -20,15 +20,14 @@ class Login extends React.Component {
       console.log("Please enter Credentials");
     } else {
       console.log(this.state.user);
-      axios
-        .post("/login", this.state.user)
-        .then((response) => {
-          if (response.data.token) {
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("email", this.state.user.email);
-            callback();
-          }
-        });
+      axios.post("/login", this.state.user).then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("email", this.state.user.email);
+          localStorage.setItem("role", this.state.user.role);
+          callback();
+        }
+      });
     }
   };
 

@@ -46,3 +46,10 @@
 .general-margin {
   margin: 15px;
 }
+
+.product {
+  text-align: center;
+  border: cadetblue dotted 1px;
+  padding: 20px;
+  width: 200px;
+}
