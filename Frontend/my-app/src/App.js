@@ -8,13 +8,10 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Farmers from "./components/FarmersComponents/Farmers";
-<<<<<<< HEAD
 import Customers from "./components/CustomersComponents/Customers";
-=======
 import Products from "./components/ProductsComponents/Products";
 import ProductDetail from "./components/FarmersComponents/ProductDetail";
 
->>>>>>> upstream/indu
 export const LoginContext = React.createContext();
 
 class App extends React.Component {
