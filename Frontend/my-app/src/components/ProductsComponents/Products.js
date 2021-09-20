@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import auth from "../auth";
 import Product from "./Product";
+import { Container, col, Row } from "react-bootstrap";
 
 export default class Products extends Component {
   state = {

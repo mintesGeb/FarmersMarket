@@ -3,7 +3,10 @@ import axios from "axios";
 import { LoginContext } from "./App.js";
 
 class Login extends React.Component {
-  state = { user: { role: "", email: "super@user", password: "superuser" } };
+  state = {
+    user: { role: "", email: "super@user", password: "superuser" },
+    display: true,
+  };
 
   loginInfoChanged = (event) => {
     let copy = { ...this.state.user };
@@ -19,13 +22,16 @@ class Login extends React.Component {
     ) {
       console.log("Please enter Credentials");
     } else {
-      console.log(this.state.user);
+      // console.log(this.state.user);
       axios.post("/login", this.state.user).then((response) => {
         if (response.data.token) {
+          
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("email", this.state.user.email);
           localStorage.setItem("role", this.state.user.role);
+          this.setState({ display: false });
           callback();
+          console.log(this.props);
         }
       });
     }
@@ -34,49 +40,58 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <h2 className="title">Login</h2>
-        <form className="general-margin">
-          <select
-            name="role"
-            id="role"
-            onChange={(event) => this.loginInfoChanged(event)}
-          >
-            <option>Select a role</option>
-            <option value="farmer">Farmer</option>
-            <option value="customer">Customer</option>
-            <option value="superuser">Superuser</option>
-          </select>
-          <br />
-        </form>
+        {!localStorage.getItem("token") ? (
+          <div>
+            <h2 className="title">Login</h2>
+            <form className="general-margin">
+              <select
+                name="role"
+                id="role"
+                onChange={(event) => this.loginInfoChanged(event)}
+              >
+                <option>Select a role</option>
+                <option value="farmer">Farmer</option>
+                <option value="customer">Customer</option>
+                <option value="superuser">Superuser</option>
+              </select>
+              <br />
+            </form>
 
-        <input
-          type="email"
-          placeholder="email"
-          name="email"
-          value={this.state.user.email}
-          onChange={(event) => this.loginInfoChanged(event)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="password"
-          value={this.state.user.password}
-          name="password"
-          onChange={(event) => this.loginInfoChanged(event)}
-        />
-        <br />
-        <LoginContext.Consumer>
-          {(value) => {
-            return (
-              <input
-                className="btn btn-dark general-margin"
-                type="button"
-                value="Submit"
-                onClick={() => this.loginInfoSubmitted(value.setToTrue)}
-              />
-            );
-          }}
-        </LoginContext.Consumer>
+            <input
+              type="email"
+              placeholder="email"
+              name="email"
+              value={this.state.user.email}
+              onChange={(event) => this.loginInfoChanged(event)}
+            />
+            <br />
+            <input
+              type="password"
+              placeholder="password"
+              value={this.state.user.password}
+              name="password"
+              onChange={(event) => this.loginInfoChanged(event)}
+            />
+            <br />
+            <LoginContext.Consumer>
+              {(value) => {
+                return (
+                  <input
+                    className="btn btn-dark general-margin"
+                    type="button"
+                    value="Submit"
+                    onClick={() => this.loginInfoSubmitted(value.setToTrue)}
+                  />
+                );
+              }}
+            </LoginContext.Consumer>
+          </div>
+        ) : (
+          <div>
+            <h1> Let the Fun Begin ! </h1>
+            <img src="https://cdntaco-americantownscom.netdna-ssl.com/content-img/lexe-farmers-market-7.jpg" />
+          </div>
+        )}
       </div>
     );
   }

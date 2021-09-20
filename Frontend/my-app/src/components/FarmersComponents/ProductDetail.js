@@ -6,9 +6,6 @@ export default class ProductDetail extends Component {
   state = {
     farmer: [],
     display: false,
-    detailProductPrice: "...",
-    addToCart: false,
-    productPrice: true,
   };
 
   componentDidMount() {
@@ -22,19 +19,7 @@ export default class ProductDetail extends Component {
       });
   }
 
-  showPrice = (id) => {
-    console.log(id);
-    axios.get("/products/" + id, auth()).then((response) => {
-      console.log(response.data.product[0].price);
-      let copy = { ...this.state.detailProductPrice };
-      copy = response.data.product[0].price;
-      this.setState({
-        detailProductPrice: copy,
-        addToCart: true,
-        productPrice: false,
-      });
-    });
-  };
+
 
   addToCart = (id) => {
     console.log(id);
@@ -55,28 +40,15 @@ export default class ProductDetail extends Component {
                   localStorage.getItem("role")==="superuser" || localStorage.getItem("role")==="customer"?
 
                 } */}
-                {this.state.productPrice ? (
-                  <button
-                    className="btn btn-outline-dark"
-                    onClick={() => {
-                      this.showPrice(prod.p_id);
-                    }}
-                  >
-                    Show Current Price
-                  </button>
-                ) : (
-                  <button
-                    className="btn btn-outline-dark"
-                    onClick={() => {
-                      this.addToCart(prod.p_id);
-                    }}
-                  >
-                    AddToCart
-                  </button>
-                )}
-                <h4 className="general-margin">
-                  $ {this.state.detailProductPrice}
-                </h4>
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => {
+                    this.addToCart(prod.p_id);
+                  }}
+                >
+                  AddToCart
+                </button>
+                
                 <br />
               </div>
             );
