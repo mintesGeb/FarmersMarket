@@ -17,12 +17,23 @@ class Farmers extends React.Component {
     });
   }
 
+  displayProducts = (id) => {
+    this.props.history.push(`/farmer/product/${id}`);
+  };
+
   render() {
     return (
       <div>
         <h1 className="title">Farmers</h1>
         {this.state.farmers.map((far) => {
-          return <Farmer name={far.firstName} />;
+          return (
+            <Farmer
+              key={far._id}
+              farmer={far}
+              showproducts={this.state.showproducts}
+              displayProducts={() => this.displayProducts(far._id)}
+            />
+          );
         })}
       </div>
     );
