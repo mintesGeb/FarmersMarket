@@ -11,6 +11,7 @@ import Farmers from "./components/FarmersComponents/Farmers";
 import Products from "./components/ProductsComponents/Products";
 import ProductDetail from "./components/FarmersComponents/ProductDetail";
 
+import Customers from "./components/CustomersComponents/Customers";
 export const LoginContext = React.createContext();
 
 class App extends React.Component {
@@ -66,6 +67,9 @@ class App extends React.Component {
                 <li>
                   <Link to="/farmers">Farmers</Link>
                 </li>
+                                <li>
+                  <Link to="/customers">Customers</Link>
+                </li>
                 <li>
                   <Link to="/products">Products</Link>
                 </li>
@@ -90,6 +94,7 @@ class App extends React.Component {
           <Route path="/logout" component={Logout} />
           <Route path="/farmers" component={Farmers} />
           <Route path="/farmer/product/:id" component={ProductDetail}/> 
+          <Route path="/customers" component={Customers} />
         </div>
       </BrowserRouter>
     );

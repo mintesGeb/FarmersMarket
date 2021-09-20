@@ -20,6 +20,8 @@ class Customer {
         const db = getDB()
         return db.collection('customersCollection').find().toArray()
     }
+
+
     static getCustomerById(id){
         const db = getDB()
         return db.collection('customersCollection').find({"_id":new ObjectId(id)}).toArray()

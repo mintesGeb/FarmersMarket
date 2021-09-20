@@ -17,6 +17,12 @@ exports.getAllCustomers =(req,res)=>{
     Customer.getAllCustomers().then(customer=>{
         res.json({customer})
     }).catch(error =>console.log(error))
+
+}
+exports.addCustomer = (req,res)=>{
+    const newCustomer = new Customer(req.body.firstName,req.body.lastName,req.body.email,req.body.password)
+    newCustomer.save()
+    res.json({status:"success"})
 }
 
 exports.getOneCustomer = (req,res)=>{
