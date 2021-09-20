@@ -10,23 +10,30 @@ class Farmers extends React.Component {
 
   componentDidMount() {
     axios.get("/farmers", auth()).then((response) => {
+      console.log(response.data.farmers);
       let copy = { ...this.state };
       copy.farmers = response.data.farmers;
       this.setState(copy);
     });
   }
 
-  displayProducts=(id)=>{
-    this.props.history.push(`/farmer/product/${id}`)
-  }
+  displayProducts = (id) => {
+    this.props.history.push(`/farmer/product/${id}`);
+  };
 
   render() {
     return (
       <div>
         <h1 className="title">Farmers</h1>
         {this.state.farmers.map((far) => {
-          return <Farmer key={far._id} farmer={far} 
-          showproducts={this.state.showproducts} displayProducts={()=>this.displayProducts(far._id)}/>;
+          return (
+            <Farmer
+              key={far._id}
+              farmer={far}
+              showproducts={this.state.showproducts}
+              displayProducts={() => this.displayProducts(far._id)}
+            />
+          );
         })}
       </div>
     );

@@ -8,10 +8,13 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Farmers from "./components/FarmersComponents/Farmers";
+
+import Customers from "./components/CustomersComponents/Customers";
+
 import Products from "./components/ProductsComponents/Products";
 import ProductDetail from "./components/FarmersComponents/ProductDetail";
 
-import Customers from "./components/CustomersComponents/Customers";
+
 export const LoginContext = React.createContext();
 
 class App extends React.Component {
@@ -93,8 +96,8 @@ class App extends React.Component {
           <Route path="/products" component={Products} />
           <Route path="/logout" component={Logout} />
           <Route path="/farmers" component={Farmers} />
-          <Route path="/farmer/product/:id" component={ProductDetail}/> 
           <Route path="/customers" component={Customers} />
+          <Route path="/farmer/product/:id" component={ProductDetail}/> 
         </div>
       </BrowserRouter>
     );
