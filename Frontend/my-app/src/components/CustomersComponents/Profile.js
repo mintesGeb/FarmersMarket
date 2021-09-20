@@ -18,6 +18,12 @@ class Profile extends React.Component {
       });
   }
 
+  editProfile = () => {
+    this.props.history.push(
+      "/customers/profile/" + this.props.match.params.id + "/edit"
+    );
+  };
+
   render() {
     return (
       <div>
@@ -39,7 +45,10 @@ class Profile extends React.Component {
             <p>
               Status: <b>{this.state.customer[0].status}</b>
             </p>
-            <button className="btn btn-outline-dark general-margin">
+            <button
+              className="btn btn-outline-dark general-margin"
+              onClick={this.editProfile}
+            >
               Edit
             </button>
           </div>
