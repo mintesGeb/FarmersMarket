@@ -10,7 +10,7 @@ class Farmers extends React.Component {
 
   componentDidMount() {
     axios.get("/farmers", auth()).then((response) => {
-      console.log(response.data.farmers);
+    //   console.log(response.data.farmers);
       let copy = { ...this.state };
       copy.farmers = response.data.farmers;
       this.setState(copy);
@@ -21,17 +21,22 @@ class Farmers extends React.Component {
     this.props.history.push(`/farmer/product/${id}`);
   };
 
+  displayReviews=(id)=>{
+      this.props.history.push("/farmer/reviews/"+id)
+  }
+
   render() {
     return (
       <div>
         <h1 className="title">Farmers</h1>
         {this.state.farmers.map((far) => {
+        //   console.log(far);
           return (
             <Farmer
               key={far._id}
               farmer={far}
-              showproducts={this.state.showproducts}
               displayProducts={() => this.displayProducts(far._id)}
+              displayReviews={()=>this.displayReviews(far._id)}
             />
           );
         })}

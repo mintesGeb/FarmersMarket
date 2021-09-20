@@ -1,10 +1,20 @@
-
 function Farmer(props) {
-  const { _id, firstName, lastName } = { ...props.farmer }
+  const { _id, firstName, lastName, reputation } = { ...props.farmer };
   return (
     <div>
-      Farmer Name: <p>{firstName} {lastName}</p>
-      <button onClick={props.displayProducts}>Display products</button><hr />
+      <h3>
+        {firstName} {lastName} [ {reputation} ]
+      </h3>
+      <button className="btn btn-outline-dark" onClick={props.displayProducts}>
+        Products
+      </button>
+      <button
+        className="btn btn-outline-dark general-margin"
+        onClick={props.displayReviews}
+      >
+        Reviews
+      </button>
+      <hr />
     </div>
   );
 }
