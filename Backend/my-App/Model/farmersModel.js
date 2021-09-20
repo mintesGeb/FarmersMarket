@@ -145,6 +145,13 @@ class Farmers {
             })
     }
 
+    static editProfile(id,prof){
+        const db = getDB();
+        return db.collection('farmersCollection')
+        .updateOne({"_id":new ObjectId(id)},
+        {$set:{"firstName": prof.firstName, "lastName": prof.lastName, "password":prof.password}})
+    }
+
 }
 
 module.exports = Farmers;

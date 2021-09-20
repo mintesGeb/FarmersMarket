@@ -123,3 +123,10 @@ exports.deductReputation=(req,res)=>{
         res.json(result);
     })
 }
+
+exports.editProfile=(req,res)=>{
+    Farmers.editProfile(req.params.id,req.body)
+    .then ((result)=>{
+        res.json(result)
+    })
+}
