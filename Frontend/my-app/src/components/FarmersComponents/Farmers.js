@@ -11,12 +11,16 @@ class Farmers extends React.Component {
 
   componentDidMount() {
     axios.get("/farmers", auth()).then((response) => {
-      //   console.log(response.data.farmers);
       let copy = { ...this.state };
       copy.farmers = response.data.farmers;
       this.setState(copy);
     });
   }
+
+  showProfile = (id) => {
+    console.log(id);
+    this.props.history.push("/farmer/profile/" + id);
+  };
 
   displayProducts = (id) => {
     this.props.history.push(`/farmer/product/${id}`);
@@ -34,7 +38,6 @@ class Farmers extends React.Component {
       <div>
         <h1 className="title">Farmers</h1>
         {this.state.farmers.map((far) => {
-          console.log(far);
           return (
             <div>
               <Farmer
@@ -42,10 +45,11 @@ class Farmers extends React.Component {
                 farmer={far}
                 displayProducts={() => this.displayProducts(far._id)}
                 displayReviews={() => this.displayReviews(far._id)}
+                showProfile={() => this.showProfile(far._id)}
               />
 
               {localStorage.getItem("role") === "farmer" ||
-              localStorage.getItem("role") === "superuser" ? (
+                localStorage.getItem("role") === "superuser" ? (
                 <button
                   className="btn btn-outline-dark "
                   onClick={() => this.showOrders(far._id)}

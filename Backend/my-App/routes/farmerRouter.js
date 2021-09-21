@@ -20,5 +20,7 @@ router.put("/deactivate-status/:id", farmersController.deactivateStatus);
 router.put("/add-reputation/:id", farmersController.addReputation);
 router.put("/deduct-reputation/:id", farmersController.deductReputation);
 router.put("/edit-profile/:id", farmersController.editProfile);
+router.put("/update-product/:id",farmersController.updateProduct);
+
 
 module.exports = router;

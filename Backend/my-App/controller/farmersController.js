@@ -72,6 +72,14 @@ exports.deleteProduct = (req, res) => {
   });
 };
 
+exports.updateProduct=(req,res)=>{
+    Farmers.updateProduct(req.params.id, req.body)
+    .then((result)=>{
+        res.json(result);
+    })
+}
+
+
 exports.addOrder = (req, res) => {
   Farmers.addOrder(req.params.id, req.body).then((result) => {
     res.json(result);
@@ -80,13 +88,13 @@ exports.addOrder = (req, res) => {
 
 exports.makeReady = (req, res) => {
   Farmers.makeReady(req.params.id, req.params.orderId).then((result) => {
-    res.json(result);
+    res.json(result[0]["orders"]);
   });
 };
 
 exports.makeComplete = (req, res) => {
   Farmers.makeComplete(req.params.id, req.params.orderId).then((result) => {
-    res.json(result);
+    res.json(result[0]["orders"]);
   });
 };
 

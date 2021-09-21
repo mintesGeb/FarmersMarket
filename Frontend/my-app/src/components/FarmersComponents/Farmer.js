@@ -14,6 +14,9 @@ function Farmer(props) {
       >
         Reviews
       </button>
+      <button className="btn btn-outline-dark" onClick={props.showProfile}>
+        Profile 
+      </button>
     </div>
   );
 }
