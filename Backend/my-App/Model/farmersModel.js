@@ -79,9 +79,18 @@ class Farmers {
       );
   }
 
+  static updateProduct(id, prod) {
+    const db = getDB();
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id), "products.p_id": new ObjectId(prod.p_id) },
+      { $set: { products: prod } }
+    );
+    return this.getFarmerById(id);
+  }
+
   static addOrder(id, order) {
     const copy = { ...order };
-    copy.o_id = new ObjectId();
+    // copy.o_id = new ObjectId();
     const db = getDB();
     return db
       .collection("farmersCollection")
@@ -90,22 +99,20 @@ class Farmers {
 
   static makeReady(id, orderId) {
     const db = getDB();
-    return db
-      .collection("farmersCollection")
-      .updateOne(
-        { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
-        { $set: { "orders.$.status": "ready" } }
-      );
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { $set: { "orders.$.status": "ready" } }
+    );
+    return this.getFarmerById(id);
   }
 
   static makeComplete(id, orderId) {
     const db = getDB();
-    return db
-      .collection("farmersCollection")
-      .updateOne(
-        { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
-        { $set: { "orders.$.status": "complete" } }
-      );
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { $set: { "orders.$.status": "complete" } }
+    );
+    return this.getFarmerById(id);
   }
 
   static activateStatus(id) {
@@ -153,16 +160,18 @@ class Farmers {
 
   static editProfile(id, prof) {
     const db = getDB();
-    return db.collection("farmersCollection").updateOne(
-      { _id: new ObjectId(id) },
-      {
-        $set: {
-          firstName: prof.firstName,
-          lastName: prof.lastName,
-          password: prof.password,
-        },
-      }
-    );
+    return db
+      .collection("farmersCollection")
+      .updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            firstName: prof.firstName,
+            lastName: prof.lastName,
+            password: prof.password,
+          },
+        }
+      );
   }
 }
 

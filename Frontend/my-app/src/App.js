@@ -18,6 +18,8 @@ import Profile from "./components/CustomersComponents/Profile";
 import CustOrders from "./components/CustomersComponents/Orders";
 import ProfileEdit from "./components/CustomersComponents/ProfileEdit.js";
 import UserProfile from "./components/UserProfile";
+import FarmersProfile from "./components/FarmersComponents/FarmersProfile";
+import FarmerProfileEdit from "./components/FarmersComponents/FarmerProfileEdit";
 import MyProducts from "./components/FarmersComponents/MyProducts";
 
 export const LoginContext = React.createContext();
@@ -130,6 +132,11 @@ class App extends React.Component {
           <Route path="/customers/profile/:id" component={Profile} />
           <Route path="/customers/profile/:id/edit" component={ProfileEdit} />
           <Route path="/customers/orders/:id" component={CustOrders} />
+          <Route path="/farmer/profile/:id" component={FarmersProfile} />
+          <Route
+            path="/farmer/profile/:id/edit"
+            component={FarmerProfileEdit}
+          />
         </div>
       </BrowserRouter>
     );
