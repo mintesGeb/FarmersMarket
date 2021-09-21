@@ -59,6 +59,11 @@ exports.deactivate =(req,res)=>{
         res.json(result)
     }).catch(error =>console.log(error))
 }
+exports.orderCustomer = (req,res)=>{
+    Customer.addOrder(req.params.id,req.body).then(result=>{
+        res.json(result)
+    }).catch(err=>console.log(err))
+}
 
 exports.activate =(req,res)=>{
     Customer.activateAcount(req.params.id).then(result=>{
