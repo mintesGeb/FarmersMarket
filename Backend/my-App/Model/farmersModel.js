@@ -64,9 +64,11 @@ class Farmers {
     const copy = { ...product };
     copy.p_id = new ObjectId();
     const db = getDB();
-    return db
+     db
       .collection("farmersCollection")
       .updateOne({ _id: new ObjectId(id) }, { $addToSet: { products: copy } });
+    
+      return this.getFarmerById(id);
   }
 
   static deleteProduct(id, productId) {

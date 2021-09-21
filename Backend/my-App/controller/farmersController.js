@@ -62,7 +62,8 @@ exports.deleteReview = (req, res) => {
 
 exports.addProduct = (req, res) => {
   Farmers.addProduct(req.params.id, req.body).then((result) => {
-    res.json(result);
+    console.log(result[0]["products"]);
+    res.json(result[0]["products"]);
   });
 };
 
@@ -72,13 +73,11 @@ exports.deleteProduct = (req, res) => {
   });
 };
 
-exports.updateProduct=(req,res)=>{
-    Farmers.updateProduct(req.params.id, req.body)
-    .then((result)=>{
-        res.json(result);
-    })
-}
-
+exports.updateProduct = (req, res) => {
+  Farmers.updateProduct(req.params.id, req.body).then((result) => {
+    res.json(result);
+  });
+};
 
 exports.addOrder = (req, res) => {
   Farmers.addOrder(req.params.id, req.body).then((result) => {
