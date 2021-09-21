@@ -77,7 +77,7 @@ class Farmers {
 
     static addOrder(id, order) {
         const copy = { ...order };
-        copy.o_id = new ObjectId();
+        // copy.o_id = new ObjectId();
         const db = getDB();
         return db.collection('farmersCollection')
             .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "orders": copy } })

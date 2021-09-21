@@ -22,12 +22,12 @@ exports.insertFarmer = (req, res) => {
     Farmers.getFarmerByEmail(req.body.email)
         .then(result => {
             if (result[0]) {
-                res.json({ status: "Email already exists." });
+                res.json({ status: "exists" });
             } else {
-                //const newFarmer = new Farmers(req.body.firstName, req.body.lastName, req.body.email, req.body.password);
-               // newFarmer.save();
+                const newFarmer = new Farmers(req.body.firstName, req.body.lastName, req.body.email, req.body.password);
+                newFarmer.save();
                 res.json({
-                    status: "Farmer access created."
+                    status: "created"
                 })
             }
         })
