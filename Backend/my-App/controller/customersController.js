@@ -19,6 +19,18 @@ exports.getAllCustomers =(req,res)=>{
     }).catch(error =>console.log(error))
 
 }
+exports.addProducttoCart =(req,res)=>{
+    Customer.addToCart(req.params.id,req.body).then(result=>{
+        res.json(result)
+    }).catch(error =>console.log(error))
+
+}
+exports.removeProductfromCart =(req,res)=>{
+    Customer.removeFromCart(req.params.id,req.body).then(result =>{
+        res.json(result)
+    }).catch(error=>console.log(error))
+}
+
 exports.addCustomer = (req,res)=>{
     const newCustomer = new Customer(req.body.firstName,req.body.lastName,req.body.email,req.body.password)
     newCustomer.save()
@@ -42,3 +54,20 @@ exports.deleteCustomerbyId=(req,res)=>{
         }
     })
     .catch((err)=>console.log(err))};
+exports.deactivate =(req,res)=>{
+    Customer.deactivateAcount(req.params.id).then(result=>{
+        res.json(result)
+    }).catch(error =>console.log(error))
+}
+
+exports.activate =(req,res)=>{
+    Customer.activateAcount(req.params.id).then(result=>{
+        res.json(result)
+    }).catch(error =>{console.log(error)})
+}
+exports.editCustomerProfile  = (req,res)=>{
+    Customer.editProfile(req.params.id,req.body).then(result=>{
+        res.json(result)
+
+    }).catch(error =>{console.log(error)})
+}

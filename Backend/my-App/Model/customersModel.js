@@ -16,11 +16,40 @@ class Customer {
         const db = getDB()
       return  db.collection('customersCollection').insertOne(this)
     }
+    static deactivateAcount(id){
+        const db = getDB()
+        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{status:'inactive'}})
+
+    }
+    static activateAcount(id){
+        const db = getDB()
+        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{status:'active'}})
+    }
+
+
+
+    static editProfile(id,object) {
+        const db = getDB()
+        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{firstName:object.firstName,lastName:object.lastName,password:object.password}})
+    }
+
+    static addToCart(id,object){
+        
+        const db = getDB()
+        //if(object.quantity)
+      return   db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$addToSet:{"cart":object}})
+       // this.cart.push()
+
+    }
+    static removeFromCart(id,productId){
+        const db = getDB()
+        return db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":productId}})
+    }
+
     static getAllCustomers(){
         const db = getDB()
         return db.collection('customersCollection').find().toArray()
     }
-
 
     static getCustomerById(id){
         const db = getDB()
