@@ -20,7 +20,7 @@ exports.getOneFarmer = (req, res) => {
 exports.insertFarmer = (req, res) => {
   Farmers.getFarmerByEmail(req.body.email).then((result) => {
     if (result[0]) {
-      res.json({ status: "Email already exists." });
+      res.json({ status: "exists" });
     } else {
       const newFarmer = new Farmers(
         req.body.firstName,
@@ -30,7 +30,7 @@ exports.insertFarmer = (req, res) => {
       );
       newFarmer.save();
       res.json({
-        status: "Farmer access created.",
+        status: "created",
       });
     }
   });

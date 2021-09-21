@@ -34,7 +34,7 @@ exports.login = async (req, res, next) => {
               });
             } else if (data.status === "active") {
               const token = jwt.sign(
-                { username: data.username, role: data.role },
+                { email: data.email, role: data.role },
                 secret
               );
               res.json({ token });
