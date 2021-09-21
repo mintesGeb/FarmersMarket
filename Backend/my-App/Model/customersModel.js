@@ -61,5 +61,37 @@ class Customer {
         return db.collection('customersCollection').deleteOne({"_id":new ObjectId(id)})
     }
 
+    static makeReady(id, orderId) {
+        const db = getDB();
+        db.collection('customersCollection')
+            .updateOne({ "_id": new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+                { $set: { "orders.$.status": "ready" } });
+        return this.getFarmerById(id)
+    }
+
+
+    static makeComplete(id, orderId) {
+        const db = getDB();
+        db.collection('customersCollection')
+            .updateOne({ "_id": new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+                { $set: { "orders.$.status": "complete" } });
+        return this.getFarmerById(id)
+    }
+
+    static getFarmerByEmail(email) {
+        const db = getDB()
+        return db.collection('customersCollection')
+            .find({ "email": email })
+            .toArray()
+    }
+
+    static addOrder(id, order) {
+        const copy = { ...order };
+        const db = getDB();
+        return db.collection('customersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "orders": copy } })
+    }
+
+
 }
     module.exports = Customer;
