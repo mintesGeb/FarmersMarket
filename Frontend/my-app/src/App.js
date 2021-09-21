@@ -17,7 +17,8 @@ import Cart from "./components/CustomersComponents/Cart";
 import Profile from "./components/CustomersComponents/Profile";
 import CustOrders from "./components/CustomersComponents/Orders";
 import ProfileEdit from "./components/CustomersComponents/ProfileEdit.js";
-import UserProfile from "./components/UserProfile"
+import UserProfile from "./components/UserProfile";
+import MyProducts from "./components/FarmersComponents/MyProducts";
 
 export const LoginContext = React.createContext();
 
@@ -75,9 +76,15 @@ class App extends React.Component {
                 <li>
                   <Link to="/farmers">Farmers</Link>
                 </li>
-                <li>
-                  <Link to="/products">Products</Link>
-                </li>
+                {localStorage.getItem("role") === "farmer" ? (
+                  <li>
+                    <Link to="/my-products">My Products</Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link to="/products">Products</Link>
+                  </li>
+                )}
                 {localStorage.getItem("role") === "superuser" ? (
                   <li>
                     <Link to="/customers">Customers</Link>
@@ -110,6 +117,7 @@ class App extends React.Component {
           </Route>
           <Route path="/register" component={Register} />
           <Route path="/products" component={Products} />
+          <Route path="/my-products" component={MyProducts} />
           <Route path="/logout" component={Logout} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/farmers" component={Farmers} />
