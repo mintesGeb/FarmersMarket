@@ -19,11 +19,18 @@ exports.getOneFarmer = (req, res) => {
 }
 
 exports.insertFarmer = (req, res) => {
-    const newFarmer = new Farmers(req.body.firstName, req.body.lastName, req.body.email, req.body.password);
-    newFarmer.save();
-    res.json({
-        status: "Farmer access created."
-    })
+    Farmers.getFarmerByEmail(req.body.email)
+        .then(result => {
+            if (result[0]) {
+                res.json({ status: "Email already exists." });
+            } else {
+                //const newFarmer = new Farmers(req.body.firstName, req.body.lastName, req.body.email, req.body.password);
+               // newFarmer.save();
+                res.json({
+                    status: "Farmer access created."
+                })
+            }
+        })
 }
 
 exports.deleteFarmer = (req, res) => {
@@ -66,67 +73,67 @@ exports.deleteProduct = (req, res) => {
         })
 }
 
-exports.addOrder = (req,res)=>{
-    Farmers.addOrder(req.params.id,req.body)
-    .then((result)=>{
-        res.json(result)
-    })
+exports.addOrder = (req, res) => {
+    Farmers.addOrder(req.params.id, req.body)
+        .then((result) => {
+            res.json(result)
+        })
 }
 
-exports.makeReady = (req,res)=>{
-    Farmers.makeReady(req.params.id,req.params.orderId)
-    .then((result)=>{
-        res.json(result)
-    })
+exports.makeReady = (req, res) => {
+    Farmers.makeReady(req.params.id, req.params.orderId)
+        .then((result) => {
+            res.json(result)
+        })
 }
 
-exports.makeComplete =(req,res)=>{
-    Farmers.makeComplete(req.params.id,req.params.orderId)
-    .then((result)=>{
-        res.json(result)
-    })
+exports.makeComplete = (req, res) => {
+    Farmers.makeComplete(req.params.id, req.params.orderId)
+        .then((result) => {
+            res.json(result)
+        })
 }
 
 
-exports.activateStatus=(req,res)=>{
+exports.activateStatus = (req, res) => {
     Farmers.activateStatus(req.params.id)
-    .then((result)=>{
-        res.json(result)
-    })
+        .then((result) => {
+            res.json(result)
+        })
 }
 
-exports.deactivateStatus=(req,res)=>{
+exports.deactivateStatus = (req, res) => {
     Farmers.deactivateStatus(req.params.id)
-    .then((result)=>{
-        res.json(result)
-    })
+        .then((result) => {
+            res.json(result)
+        })
 }
 
-exports.getFarmerByEmail=(req,res)=>{
+exports.getFarmerByEmail = (req, res) => {
     Farmers.getFarmerByEmail(req.params.email)
-    .then((result)=>{
-        res.json({result})
-    })
+        .then((result) => {
+            res.json({ result })
+        })
 }
 
 
-exports.addReputation=(req,res)=>{
+exports.addReputation = (req, res) => {
     Farmers.addReputation(req.params.id)
-    .then((result)=>{
-        res.json(result);
-    })
+        .then((result) => {
+            res.json(result);
+        })
 }
 
-exports.deductReputation=(req,res)=>{
+exports.deductReputation = (req, res) => {
     Farmers.deductReputation(req.params.id)
-    .then((result)=>{
-        res.json(result);
-    })
+        .then((result) => {
+            res.json(result);
+        })
 }
 
-exports.editProfile=(req,res)=>{
-    Farmers.editProfile(req.params.id,req.body)
-    .then ((result)=>{
-        res.json(result)
-    })
+exports.editProfile = (req, res) => {
+    Farmers.editProfile(req.params.id, req.body)
+        .then((result) => {
+            res.json(result)
+        })
 }

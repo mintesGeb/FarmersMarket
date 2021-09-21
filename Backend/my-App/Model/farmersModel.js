@@ -121,20 +121,18 @@ class Farmers {
 
     static addReputation(id) {
         const db = getDB();
-         return this.getFarmerById(id)
+        return this.getFarmerById(id)
             .then((result) => {
-                if (result[0].reputation < 10) {
-                    db.collection('farmersCollection')
-                        .updateOne({ "_id": new ObjectId(id) },
-                            { $set: { "reputation": result[0].reputation + 1 } });
-                };
+                db.collection('farmersCollection')
+                    .updateOne({ "_id": new ObjectId(id) },
+                        { $set: { "reputation": result[0].reputation + 1 } })
                 return this.getFarmerById(id);
             })
     }
 
     static deductReputation(id) {
         const db = getDB();
-         return this.getFarmerById(id)
+        return this.getFarmerById(id)
             .then((result) => {
                 if (result[0].reputation > 0) {
                     db.collection('farmersCollection')
@@ -145,11 +143,11 @@ class Farmers {
             })
     }
 
-    static editProfile(id,prof){
+    static editProfile(id, prof) {
         const db = getDB();
         return db.collection('farmersCollection')
-        .updateOne({"_id":new ObjectId(id)},
-        {$set:{"firstName": prof.firstName, "lastName": prof.lastName, "password":prof.password}})
+            .updateOne({ "_id": new ObjectId(id) },
+                { $set: { "firstName": prof.firstName, "lastName": prof.lastName, "password": prof.password } })
     }
 
 }
