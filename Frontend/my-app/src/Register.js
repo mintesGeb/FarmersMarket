@@ -4,22 +4,19 @@ import axios from "axios";
 class Register extends React.Component {
   state = {
     newUser: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      role: ''
-    }
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      role: "",
+    },
   };
-
-
 
   registerInfoChanged = (event) => {
     let copy = { ...this.state.newUser };
     copy[event.target.name] = event.target.value;
     this.setState({ newUser: copy });
-  }
-
+  };
 
   registerInfoSubmitted = (profile) => {
     if (
@@ -31,52 +28,70 @@ class Register extends React.Component {
     ) {
       alert("Please enter Correct values");
     } else {
-      axios.post('/' + profile.role + 's/register',profile)
-      .then(response=>{
-        console.log(response.data);
-      })
+      axios
+        .post("/register/" + profile.role, profile)
+        .then((response) => {
+          console.log(response.data);
+        });
     }
-  }
-
-
+  };
 
   render() {
     return (
       <div>
         <h1 className="title">Register</h1>
         <form className="general-margin">
-          First Name: <input
+          First Name:{" "}
+          <input
             name="firstName"
             value={this.state.firstName}
             onChange={(event) => this.registerInfoChanged(event)}
-          /><br />
-          Last Name: <input
+          />
+          <br />
+          Last Name:{" "}
+          <input
             name="lastName"
             value={this.state.lastName}
-            onChange={(event) => { this.registerInfoChanged(event) }}
-          /><br />
-          Email: <input
+            onChange={(event) => {
+              this.registerInfoChanged(event);
+            }}
+          />
+          <br />
+          Email:{" "}
+          <input
             name="email"
             value={this.state.email}
-            onChange={(event) => { this.registerInfoChanged(event) }}
-          /><br />
-          Password: <input
+            onChange={(event) => {
+              this.registerInfoChanged(event);
+            }}
+          />
+          <br />
+          Password:{" "}
+          <input
             name="password"
             value={this.state.password}
-            onChange={(event) => { this.registerInfoChanged(event) }}
-          /><br />
-          <select name="role"
+            onChange={(event) => {
+              this.registerInfoChanged(event);
+            }}
+          />
+          <br />
+          <select
+            name="role"
             id="role"
-            onChange={(event) => this.registerInfoChanged(event)}>
+            onChange={(event) => this.registerInfoChanged(event)}
+          >
             <option>Select a role</option>
             <option value="farmer">Farmer</option>
             <option value="customer">Customer</option>
-          </select><br />
+          </select>
+          <br />
           <input
             className="btn btn-dark general-margin"
             type="button"
             value="Register"
-            onClick={() => this.registerInfoSubmitted(this.state.newUser)} /><br />
+            onClick={() => this.registerInfoSubmitted(this.state.newUser)}
+          />
+          <br />
         </form>
       </div>
     );
