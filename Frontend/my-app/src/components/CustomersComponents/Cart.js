@@ -31,7 +31,7 @@ class Cart extends React.Component {
     copy.customer[0].cart.map((prod) => {
       if (item.p_id === prod.p_id) {
         if (e.target.value === "Add Amount") {
-          copy.farmers.map((farmer) => {
+          copy.farmers = copy.farmers.map((farmer) => {
             if (item.f_id === farmer._id) {
               farmer.products.map((product) => {
                 if (product.p_id === item.p_id && product.numberOfProducts > 1) {
@@ -64,16 +64,17 @@ class Cart extends React.Component {
       }
       return prod;
     })
-    console.log(copy)
     this.setState(copy);
   }
 
   buyProducts = (purchase) => {
     const copy = {...purchase};
-    const order = copy.customer[0].cart.splice();
+    const order = [...copy.customer[0].cart];
     // order.o_id= ////
-    order.date = new Date();
-    order.status = "pending";
+    order[0].date = new Date();
+    order[0].status = "pending";
+    console.log(order)
+    
     this.state.customer[0].cart.map((item) => {
       axios.delete('customers/removeProduct/' + this.state.customer[0]._id + '/' + item.p_id, auth())
         .then((res) => {
@@ -89,7 +90,10 @@ class Cart extends React.Component {
     .then((res)=>{
       console.log(res.data);
     })
+    copy.customer[0].order=order.splice()
     copy.customer[0].cart=[]
+    // console.log(copy.farmers[1].products)
+    // console.log(copy.customer[0].order)
     this.setState(copy);
     
   }
