@@ -26,7 +26,7 @@ exports.addProducttoCart = (req, res) => {
 
 }
 exports.removeProductfromCart = (req, res) => {
-    Customer.removeFromCart(req.params.id, req.body).then(result => {
+    Customer.removeFromCart(req.params.id, req.params.pid).then(result => {
         res.json(result)
     }).catch(error => console.log(error))
 }
@@ -68,7 +68,7 @@ exports.activate = (req, res) => {
 }
 exports.editCustomerProfile = (req, res) => {
     Customer.editProfile(req.params.id, req.body).then(result => {
-        res.json(result)
+        res.json(result[0])
 
     }).catch(error => { console.log(error) })
 }

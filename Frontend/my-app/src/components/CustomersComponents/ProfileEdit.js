@@ -9,7 +9,6 @@ class ProfileEdit extends React.Component {
     axios
       .get("/customers/" + this.props.match.params.id, auth())
       .then((res) => {
-        console.log(res.data.customer);
         let copy = { ...this.state };
         copy.customer = res.data.customer[0];
         copy.display = true;
@@ -19,13 +18,16 @@ class ProfileEdit extends React.Component {
   infoChanged = (event) => {
     let copy = { ...this.state };
     copy.customer[event.target.name] = event.target.value;
-    console.log(copy.customer[event.target.name]);
     this.setState(copy);
   };
-  editInfoSubmitted = () => {
-    console.log(this.state.customer, this.state.customer._id);
-
+  editInfoSubmitted = (customer) => {
+    this.setState({customer: customer})
     this.props.history.push("/customers/profile/" + this.state.customer._id);
+    axios.put('/customers/editprofile/'+customer._id, customer, auth())
+    .then((res)=>{
+      console.log(res.data);
+      //this.setState({customer:{...res.data}})
+    })
   };
   render() {
     return (
@@ -73,7 +75,7 @@ class ProfileEdit extends React.Component {
               className="btn btn-outline-dark general-margin"
               type="button"
               value="Submit"
-              onClick={this.editInfoSubmitted}
+              onClick={()=>this.editInfoSubmitted(this.state.customer)}
             />
           </div>
         ) : null}

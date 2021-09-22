@@ -10,7 +10,6 @@ class Profile extends React.Component {
     axios
       .get("/customers/" + this.props.match.params.id, auth())
       .then((res) => {
-        console.log(res.data.customer);
         let copy = { ...this.state };
         copy.customer = res.data.customer;
         copy.display = true;

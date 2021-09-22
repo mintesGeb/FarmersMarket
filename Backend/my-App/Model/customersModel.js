@@ -30,7 +30,9 @@ class Customer {
 
     static editProfile(id,object) {
         const db = getDB()
-        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{firstName:object.firstName,lastName:object.lastName,password:object.password}})
+        db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{firstName:object.firstName,lastName:object.lastName,password:object.password}})
+        const result= this.getCustomerById(id)
+        return result;
     }
 
     static addToCart(id,object){
@@ -43,7 +45,8 @@ class Customer {
     }
     static removeFromCart(id,productId){
         const db = getDB()
-        return db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":productId}})
+        db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":{"p_id":productId}}})
+        return this.getCustomerById(id)
     }
 
     static getAllCustomers(){

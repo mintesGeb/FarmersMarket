@@ -18,13 +18,11 @@ class FarmerProfileEdit extends React.Component {
   infoChanged = (event) => {
     let copy = { ...this.state };
     copy.farmer[event.target.name] = event.target.value;
-    console.log(copy.farmer[event.target.name]);
-    //this.setState(copy);
+    this.setState(copy);
   };
-  editInfoSubmitted = () => {
-    //console.log(this.state.farmer, this.state.farmer._id);
-
-    this.props.history.push("/farmers/profile/" + this.state.farmer._id);
+  editInfoSubmitted = (farmer) => {
+    //this.props.history.push("/farmers/profile/" + this.state.farmer._id);
+    console.log("enter");
   };
   render() {
     return (

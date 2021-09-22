@@ -62,7 +62,7 @@ exports.deleteReview = (req, res) => {
 
 exports.addProduct = (req, res) => {
   Farmers.addProduct(req.params.id, req.body).then((result) => {
-    res.json(result);
+    res.json(result[0]["products"]);
   });
 };
 
