@@ -85,7 +85,7 @@ class Farmers {
     const db = getDB();
     db.collection("farmersCollection").updateOne(
       { _id: new ObjectId(id), "products.p_id": new ObjectId(prod.p_id) },
-      { $set: { products: prod } }
+      { $addToSet: { products: prod } }
     );
     return this.getFarmerById(id);
   }

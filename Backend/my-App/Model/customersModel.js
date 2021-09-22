@@ -45,6 +45,8 @@ class Customer {
 
     static addOrder(id, obj) {
         const copy = { ...obj };
+        copy.p_id = new ObjectId(copy.p_id)
+        copy.f_id = new ObjectId(copy.f_id)
         const db = getDB();
         copy.items = [... obj.items]
         return db.collection('customersCollection')
@@ -53,7 +55,8 @@ class Customer {
 
     static removeFromCart(id,productId){
         const db = getDB()
-        db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":{"p_id":productId}}})
+        console
+        db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":{"p_id":new ObjectId(productId)}}})
         return this.getCustomerById(id)
     }
 
