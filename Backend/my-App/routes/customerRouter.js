@@ -18,6 +18,7 @@ router.put("/make-ready/:id/:orderId", customersController.makeReady);
 router.get("/email/:email", customersController.getCustomerrByEmail);
 router.put("/make-complete/:id/:orderId", customersController.makeComplete);
 router.put("/add-order/:id", customersController.addOrder);
+// router.put("/order/:id",customersController.orderCustomer)
 
 // router.put("/:id", customersController.);
 router.delete("/:id", customersController.deleteCustomerbyId);

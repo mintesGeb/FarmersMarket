@@ -41,8 +41,16 @@ class Customer {
         //if(object.quantity)
       return   db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$addToSet:{"cart":object}})
        // this.cart.push()
-
     }
+
+    static addOrder(id, obj) {
+        const copy = { ...obj };
+        const db = getDB();
+        copy.items = [... obj.items]
+        return db.collection('customersCollection')
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "order": copy}} )
+    }
+
     static removeFromCart(id,productId){
         const db = getDB()
         db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":{"p_id":productId}}})
