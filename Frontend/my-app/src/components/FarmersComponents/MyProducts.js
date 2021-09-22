@@ -10,6 +10,8 @@ class MyProducts extends React.Component {
     isAddProduct: false,
     newProduct: {},
     f_id: "",
+    editProduct: false,
+    productToUpdate: {},
   };
 
   componentDidMount() {
@@ -35,10 +37,25 @@ class MyProducts extends React.Component {
 
   deleteProduct(id) {
     console.log(id);
-    console.log(this.state);
+    axios
+      .put(
+        "/farmers/delete-product/" + this.state.f_id + "/" + id,
+        null,
+        auth()
+      )
+      .then((res) => {
+        console.log(res.data);
+      });
   }
   editProduct(id) {
     console.log(id);
+
+    let found = this.state.myProducts.find((prod) => prod.p_id == id);
+    console.log(this.state.productToUpdate);
+    this.setState({
+      editProduct: !this.state.editProduct,
+      productToUpdate: found,
+    });
   }
 
   newProductInfoChange = (event) => {
@@ -46,17 +63,32 @@ class MyProducts extends React.Component {
     copy[event.target.name] = event.target.value;
     this.setState({ newProduct: copy });
   };
-  
+
   addProductDone(id) {
     axios
       .put("/farmers/add-product/" + id, this.state.newProduct, auth())
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         let copy = { ...this.state };
         copy.myProducts = res.data;
         this.setState(copy);
       });
   }
+
+  updateProductInfo = (event) => {
+    let copy = { ...this.state.productToUpdate };
+    copy[event.target.name] = event.target.value;
+    this.setState({ productToUpdate: copy });
+  };
+
+  updateProductDone = (id) => {
+    console.log(id, this.state.productToUpdate);
+    axios
+      .put("/farmers/update-product/" + id, this.state.productToUpdate, auth())
+      .then((prod) => {
+        console.log(prod);
+      });
+  };
 
   render() {
     return (
@@ -77,7 +109,7 @@ class MyProducts extends React.Component {
               priceChanged={(event) => this.newProductInfoChange(event)}
               catagoryChanged={(event) => this.newProductInfoChange(event)}
               amountChanged={(event) => this.newProductInfoChange(event)}
-              addProductDone={() => this.addProductDone(this.state.f_id)}
+              done={() => this.addProductDone(this.state.f_id)}
             ></NewProduct>
           </div>
         ) : null}
@@ -117,6 +149,22 @@ class MyProducts extends React.Component {
                 </div>
               );
             })}
+            {this.state.editProduct ? (
+              <div>
+                <h2 className="title">Editing ... </h2>
+                <NewProduct
+                  pName={this.state.productToUpdate.productName}
+                  price={this.state.productToUpdate.price}
+                  amount={this.state.productToUpdate.numberOfProducts}
+                  catagory={this.state.productToUpdate.catagory}
+                  nameChanged={(event) => this.updateProductInfo(event)}
+                  priceChanged={(event) => this.updateProductInfo(event)}
+                  catagoryChanged={(event) => this.updateProductInfo(event)}
+                  amountChanged={(event) => this.updateProductInfo(event)}
+                  done={() => this.updateProductDone(this.state.f_id)}
+                />
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
