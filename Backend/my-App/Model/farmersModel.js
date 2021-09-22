@@ -64,11 +64,12 @@ class Farmers {
     const copy = { ...product };
     copy.p_id = new ObjectId();
     const db = getDB();
-     db
-      .collection("farmersCollection")
-      .updateOne({ _id: new ObjectId(id) }, { $addToSet: { products: copy } });
-    
-      return this.getFarmerById(id);
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $addToSet: { products: copy } }
+    );
+
+    return this.getFarmerById(id);
   }
 
   static deleteProduct(id, productId) {
@@ -85,7 +86,7 @@ class Farmers {
     const db = getDB();
     db.collection("farmersCollection").updateOne(
       { _id: new ObjectId(id), "products.p_id": new ObjectId(prod.p_id) },
-      { $set: { products: prod } }
+      { $addToSet: { products: prod } }
     );
     return this.getFarmerById(id);
   }
@@ -162,18 +163,16 @@ class Farmers {
 
   static editProfile(id, prof) {
     const db = getDB();
-    return db
-      .collection("farmersCollection")
-      .updateOne(
-        { _id: new ObjectId(id) },
-        {
-          $set: {
-            firstName: prof.firstName,
-            lastName: prof.lastName,
-            password: prof.password,
-          },
-        }
-      );
+    return db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          firstName: prof.firstName,
+          lastName: prof.lastName,
+          password: prof.password,
+        },
+      }
+    );
   }
 }
 
