@@ -24,7 +24,6 @@ class MyProducts extends React.Component {
         copy.display = true;
         copy.f_id = response.data.result[0]._id;
         this.setState(copy);
-        
       });
   }
 
@@ -45,14 +44,16 @@ class MyProducts extends React.Component {
         auth()
       )
       .then((res) => {
-        console.log(res.data);
+        let copy = { ...this.state };
+        copy.myProducts = res.data[0].products;
+        this.setState(copy);
       });
   }
   editProduct(id) {
     console.log(id);
 
     let found = this.state.myProducts.find((prod) => prod.p_id == id);
-    console.log(this.state.productToUpdate);
+    console.log(found);
     this.setState({
       editProduct: !this.state.editProduct,
       productToUpdate: found,
@@ -69,9 +70,10 @@ class MyProducts extends React.Component {
     axios
       .put("/farmers/add-product/" + id, this.state.newProduct, auth())
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         let copy = { ...this.state };
         copy.myProducts = res.data;
+        copy.isAddProduct = false;
         this.setState(copy);
       });
   }
@@ -79,6 +81,8 @@ class MyProducts extends React.Component {
   updateProductInfo = (event) => {
     let copy = { ...this.state.productToUpdate };
     copy[event.target.name] = event.target.value;
+    console.log(copy);
+
     this.setState({ productToUpdate: copy });
   };
 
@@ -87,7 +91,10 @@ class MyProducts extends React.Component {
     axios
       .put("/farmers/update-product/" + id, this.state.productToUpdate, auth())
       .then((prod) => {
-        console.log(prod);
+        let copy = { ...this.state };
+        console.log(prod.data[0].products);
+        copy.myProducts = prod.data[0].products;
+        this.setState(copy);
       });
   };
 
