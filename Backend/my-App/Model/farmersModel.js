@@ -74,21 +74,29 @@ class Farmers {
 
   static deleteProduct(id, productId) {
     const db = getDB();
-    return db
-      .collection("farmersCollection")
-      .updateOne(
-        { _id: new ObjectId(id) },
-        { $pull: { products: { p_id: new ObjectId(productId) } } }
-      );
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $pull: { products: { p_id: new ObjectId(productId) } } }
+    );
+
+    return this.getFarmerById(id);
   }
 
   static updateProduct(id, prod) {
     const db = getDB();
-    
+    let copy = { ...prod };
+    copy.p_id = new ObjectId(copy.p_id);
+
     db.collection("farmersCollection").updateOne(
-      { _id: new ObjectId(id), "products.p_id": new ObjectId(prod.p_id) },
-      { $addToSet: { products: prod } }
+      { _id: new ObjectId(id) },
+      { $pull: { products: { p_id: copy.p_id } } }
     );
+
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $addToSet: { products: copy } }
+    );
+
     return this.getFarmerById(id);
   }
 

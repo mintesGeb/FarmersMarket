@@ -75,9 +75,11 @@ class App extends React.Component {
           {this.state.isLoggedIn === false ? null : (
             <div>
               <ul>
-                <li>
-                  <Link to="/farmers">Farmers</Link>
-                </li>
+                {localStorage.getItem("role") === "farmer" ? null : (
+                  <li>
+                    <Link to="/farmers">Farmers</Link>
+                  </li>
+                )}
                 {localStorage.getItem("role") === "farmer" ? (
                   <li>
                     <Link to="/my-products">My Products</Link>

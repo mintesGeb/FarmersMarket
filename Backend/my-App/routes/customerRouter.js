@@ -15,7 +15,7 @@ router.put("/deactivate/:id",customersController.deactivate);
 router.put("/activate/:id",customersController.activate);
 router.put("/editprofile/:id",customersController.editCustomerProfile);
 router.put("/make-ready/:id/:orderId", customersController.makeReady);
-router.get("/email/:email", customersController.getCustomerrByEmail);
+router.get("/email/:email", customersController.getCustomerByEmail);
 router.put("/make-complete/:id/:orderId", customersController.makeComplete);
 router.put("/add-order/:id", customersController.addOrder);
 // router.put("/order/:id",customersController.orderCustomer)
