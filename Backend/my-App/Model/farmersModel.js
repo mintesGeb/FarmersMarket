@@ -84,6 +84,7 @@ class Farmers {
 
   static updateProduct(id, prod) {
     const db = getDB();
+    
     db.collection("farmersCollection").updateOne(
       { _id: new ObjectId(id), "products.p_id": new ObjectId(prod.p_id) },
       { $addToSet: { products: prod } }

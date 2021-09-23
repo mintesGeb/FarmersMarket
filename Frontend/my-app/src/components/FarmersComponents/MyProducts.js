@@ -24,6 +24,7 @@ class MyProducts extends React.Component {
         copy.display = true;
         copy.f_id = response.data.result[0]._id;
         this.setState(copy);
+        
       });
   }
 
