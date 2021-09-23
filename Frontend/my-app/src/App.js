@@ -3,6 +3,7 @@ import "./App.css";
 import { Route, BrowserRouter, Link, Switch } from "react-router-dom";
 import React from "react";
 import axios from "axios";
+import auth from "./components/auth";
 
 import Login from "./Login";
 import Logout from "./Logout";
@@ -32,6 +33,7 @@ class App extends React.Component {
       isLoggedIn: false,
       setToTrue: this.setToTrue,
       setToFalse: this.setToFalse,
+      id: ""
     };
   }
 
@@ -44,7 +46,15 @@ class App extends React.Component {
   }
 
   setToTrue = () => {
+    if(localStorage.getItem("role")==="customer")
+    {axios.get('/customers/email/' + localStorage.getItem("email"), auth())
+      .then((res) => {
+        this.setState(() => {
+          return {id:res.data.result[0]._id}
+        })
+      })}
     this.setState({ isLoggedIn: true });
+
   };
   setToFalse = () => {
     this.setState({ isLoggedIn: false });
@@ -55,6 +65,10 @@ class App extends React.Component {
     localStorage.removeItem("role");
     this.setToFalse();
   };
+
+  showCart = () => {
+
+  }
 
   render() {
     return (
@@ -75,6 +89,7 @@ class App extends React.Component {
           {this.state.isLoggedIn === false ? null : (
             <div>
               <ul>
+
                 <li>
                   <Link to="/farmers">Farmers</Link>
                 </li>
@@ -96,10 +111,13 @@ class App extends React.Component {
                     <Link to="/profile">Profile</Link>
                   </li>
                 )}
+                {localStorage.getItem("role") === "customer" ? (
+                  <li>
+                  <Link to={"/customers/cart/"+this.state.id}>
+                    Cart
+                  </Link>
+                </li>) : null}
 
-                {/* <li>
-                  <Link to="/cart">Cart</Link>
-                </li> */}
 
                 <li>
                   <Link to="/logout" onClick={this.loggedOut}>

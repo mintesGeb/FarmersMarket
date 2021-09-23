@@ -1,46 +1,47 @@
 const getDB = require('../utils/database').getDB;
-const ObjectId  = require('../utils/database').ObjectId
+const ObjectId = require('../utils/database').ObjectId
 
 class Customer {
-    constructor(firstName,lastName,email,password){
-        this.firstName= firstName;
-        this.lastName= lastName;
-        this.email= email;
-        this.password= password;
-        this.role ='customer';
-        this.cart =[];
-        this.order =[];
-        this.status ='active'
+    constructor(firstName, lastName, email, password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = 'customer';
+        this.cart = [];
+        this.order = [];
+        this.status = 'active'
     }
-    save(){
+    save() {
         const db = getDB()
-      return  db.collection('customersCollection').insertOne(this)
+        return db.collection('customersCollection').insertOne(this)
     }
-    static deactivateAcount(id){
+    static deactivateAcount(id) {
         const db = getDB()
-        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{status:'inactive'}})
-
+        db.collection('customersCollection').updateOne({ "_id": new ObjectId(id) }, { $set: { status: 'inactive' } })
+        const result = this.getCustomerById(id) 
+        return result
     }
-    static activateAcount(id){
+    static activateAcount(id) {
         const db = getDB()
-        return db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{status:'active'}})
+        db.collection('customersCollection').updateOne({ "_id": new ObjectId(id) }, { $set: { status: 'active' } })
+        return this.getCustomerById(id)
     }
 
 
 
-    static editProfile(id,object) {
+    static editProfile(id, object) {
         const db = getDB()
-        db.collection('customersCollection').updateOne({"_id":new ObjectId(id)},{$set:{firstName:object.firstName,lastName:object.lastName,password:object.password}})
-        const result= this.getCustomerById(id)
-        return result;
+        db.collection('customersCollection').updateOne({ "_id": new ObjectId(id) }, { $set: { firstName: object.firstName, lastName: object.lastName, password: object.password } })
+        return this.getCustomerById(id);
     }
 
-    static addToCart(id,object){
-        
+    static addToCart(id, object) {
+
         const db = getDB()
         //if(object.quantity)
-      return   db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$addToSet:{"cart":object}})
-       // this.cart.push()
+        return db.collection('customersCollection').updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "cart": object } })
+        // this.cart.push()
     }
 
     static addOrder(id, obj) {
@@ -48,31 +49,31 @@ class Customer {
         copy.p_id = new ObjectId(copy.p_id)
         copy.f_id = new ObjectId(copy.f_id)
         const db = getDB();
-        copy.items = [... obj.items]
+        copy.items = [...obj.items]
         return db.collection('customersCollection')
-            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "order": copy}} )
+            .updateOne({ "_id": new ObjectId(id) }, { $addToSet: { "order": copy } })
     }
 
-    static removeFromCart(id,productId){
+    static removeFromCart(id, productId) {
         const db = getDB()
         console
-        db.collection('customersCollection').updateOne({"_id": new ObjectId(id)},{$pull:{"cart":{"p_id":new ObjectId(productId)}}})
+        db.collection('customersCollection').updateOne({ "_id": new ObjectId(id) }, { $pull: { "cart": { "p_id": new ObjectId(productId) } } })
         return this.getCustomerById(id)
     }
 
-    static getAllCustomers(){
+    static getAllCustomers() {
         const db = getDB()
         return db.collection('customersCollection').find().toArray()
     }
 
-    static getCustomerById(id){
+    static getCustomerById(id) {
         const db = getDB()
-        return db.collection('customersCollection').find({"_id":new ObjectId(id)}).toArray()
+        return db.collection('customersCollection').find({ "_id": new ObjectId(id) }).toArray()
     }
 
-    static deleteCustomerById(id){
+    static deleteCustomerById(id) {
         const db = getDB()
-        return db.collection('customersCollection').deleteOne({"_id":new ObjectId(id)})
+        return db.collection('customersCollection').deleteOne({ "_id": new ObjectId(id) })
     }
 
     static makeReady(id, orderId) {
@@ -92,7 +93,7 @@ class Customer {
         return this.getFarmerById(id)
     }
 
-    static getFarmerByEmail(email) {
+    static getCustomerByEmail(email) {
         const db = getDB()
         return db.collection('customersCollection')
             .find({ "email": email })
@@ -108,4 +109,4 @@ class Customer {
 
 
 }
-    module.exports = Customer;
+module.exports = Customer;

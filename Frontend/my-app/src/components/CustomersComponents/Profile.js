@@ -23,6 +23,24 @@ class Profile extends React.Component {
     );
   };
 
+  changeStatus = () => {
+    if (this.state.customer[0].status === "active") {
+      axios.put('/customers/deactivate/'+this.state.customer[0]._id,null,auth())
+      .then((res)=>{
+     this.setState(()=>{
+       return {customer:[...res.data]}
+     })
+      })
+    } else {
+      axios.put('/customers/activate/'+this.state.customer[0]._id,null,auth())
+      .then((res)=>{
+        this.setState(()=>{
+          return {customer:[...res.data]}
+        })
+      })
+    }
+  }
+
   render() {
     return (
       <div>
@@ -50,6 +68,13 @@ class Profile extends React.Component {
             >
               Edit
             </button>
+            {localStorage.getItem("role")==="superuser"? <div>{this.state.customer[0].status === "active" ? <button
+              className="btn btn-outline-dark general-margin"
+              onClick={() => this.changeStatus()}
+            >Deactivate User</button> : <button
+              className="btn btn-outline-dark general-margin"
+              onClick={() => this.changeStatus()}
+            >Activate User</button>}</div>: null}
           </div>
         ) : null}
       </div>
