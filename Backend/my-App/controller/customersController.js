@@ -24,6 +24,7 @@ exports.getAllCustomers = (req, res) => {
     .catch((error) => console.log(error));
 };
 exports.addProducttoCart = (req, res) => {
+  console.log(req.params.id, req.body);
   Customer.addToCart(req.params.id, req.body)
     .then((result) => {
       res.json(result);
@@ -127,7 +128,6 @@ exports.addOrder = (req, res) => {
 };
 
 exports.updateCustomer = (req, res) => {
-  
   Customer.updateCustomer(req.params.id, req.body).then((result) => {
     res.json(result);
   });

@@ -106,10 +106,8 @@ class MyProducts extends React.Component {
   render() {
     return (
       <div>
-        <div className="head">
-          <Back backClicked={this.backclicked} />
+        
           <h1 className="title">My Products</h1>
-        </div>
 
         <input
           value="Add Product"

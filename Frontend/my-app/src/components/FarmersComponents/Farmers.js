@@ -10,20 +10,36 @@ class Farmers extends React.Component {
   state = { farmers: [] };
 
   componentDidMount() {
-    axios.get("/farmers", auth()).then((response) => {
-      let copy = { ...this.state };
-      copy.farmers = response.data.farmers;
-      this.setState(copy);
-    });
+    let req;
+    if (localStorage.getItem("role") === "farmer") {
+      req = axios
+        .get("/farmers/email/" + localStorage.getItem("email"), auth())
+        .then((response) => {
+          console.log(response.data.result);
+          let copy = { ...this.state };
+          copy.farmers = response.data.result;
+          this.setState(copy);
+        });
+    } else {
+      req = axios.get("/farmers", auth()).then((response) => {
+        console.log(response.data.result);
+        let copy = { ...this.state };
+        copy.farmers = response.data.farmers;
+        this.setState(copy);
+      });
+    }
   }
 
   showProfile = (id) => {
-    console.log(id);
-    this.props.history.push("/farmer/profile/" + id);
+    localStorage.getItem("role") === "farmer"
+      ? this.props.history.push("/profile")
+      : this.props.history.push("/farmer/profile/" + id);
   };
 
   displayProducts = (id) => {
-    this.props.history.push(`/farmer/product/${id}`);
+    localStorage.getItem("role") === "farmer"
+      ? this.props.history.push(`/my-products`)
+      : this.props.history.push(`/farmer/product/${id}`);
   };
 
   displayReviews = (id) => {
@@ -36,7 +52,11 @@ class Farmers extends React.Component {
   render() {
     return (
       <div>
-        <h1 className="title">Farmers</h1>
+        {localStorage.getItem("role") === "farmer" ? (
+          <h1 className="title">Orders & Reviews</h1>
+        ) : (
+          <h1 className="title">Farmers</h1>
+        )}
         {this.state.farmers.map((far) => {
           return (
             <div>
@@ -49,7 +69,7 @@ class Farmers extends React.Component {
               />
 
               {localStorage.getItem("role") === "farmer" ||
-                localStorage.getItem("role") === "superuser" ? (
+              localStorage.getItem("role") === "superuser" ? (
                 <button
                   className="btn btn-outline-dark "
                   onClick={() => this.showOrders(far._id)}

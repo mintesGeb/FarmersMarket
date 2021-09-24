@@ -1,6 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Route, BrowserRouter, Link, Switch } from "react-router-dom";
+import {
+  useHistory,
+  Route,
+  BrowserRouter,
+  Link,
+  Switch,
+} from "react-router-dom";
+// import { ReactRouter } from "react-router";
 import React from "react";
 import axios from "axios";
 import auth from "./components/auth";
@@ -10,6 +17,7 @@ import Login from "./Login";
 import Logout from "./Logout";
 import Register from "./Register";
 import Farmers from "./components/FarmersComponents/Farmers";
+import FarmerView from "./components/FarmersComponents/FarmerView";
 import Customers from "./components/CustomersComponents/Customers";
 import Products from "./components/ProductsComponents/Products";
 import ProductDetail from "./components/FarmersComponents/ProductDetail";
@@ -24,6 +32,7 @@ import FarmersProfile from "./components/FarmersComponents/FarmersProfile";
 import FarmerProfileEdit from "./components/FarmersComponents/FarmerProfileEdit";
 import MyProducts from "./components/FarmersComponents/MyProducts";
 import Home from "./components/Home";
+import Back from "./components/backButton";
 
 export const LoginContext = React.createContext();
 
@@ -88,7 +97,10 @@ class App extends React.Component {
                 )}
                 {this.state.isLoggedIn === false ? null : (
                   <div>
-                    {localStorage.getItem("role") === "farmer" ? null : (
+                    {localStorage.getItem("role") === "farmer" ? (
+                      // <Nav.Link href="/farmer">Orders & Reviews</Nav.Link>
+                      <Nav.Link href="/farmers">Orders & Review</Nav.Link>
+                    ) : (
                       <Nav.Link href="/farmers">Farmers</Nav.Link>
                     )}
                     {localStorage.getItem("role") === "farmer" ? (
@@ -110,6 +122,8 @@ class App extends React.Component {
                     <Nav.Link href="/logout" onClick={this.loggedOut}>
                       Logout
                     </Nav.Link>
+                    <br />
+                    <Back />
                   </div>
                 )}
               </Nav>
@@ -131,6 +145,8 @@ class App extends React.Component {
           <Route path="/logout" component={Logout} />
           <Route path="/profile" component={UserProfile} />
           <Route path="/farmers" component={Farmers} />
+          <Route path="/farmer" exact component={FarmerView} />
+
           <Route path="/customers" exact component={Customers} />
           <Route path="/farmer/product/:id" component={ProductDetail} />
           <Route path="/farmer/reviews/:id" component={Reviews} />
