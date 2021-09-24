@@ -74,10 +74,10 @@ class Customer {
 
   static addOrder(id, obj) {
     const copy = { ...obj };
-    copy.p_id = new ObjectId(copy.p_id);
-    copy.f_id = new ObjectId(copy.f_id);
+    // copy.p_id = new ObjectId(copy.p_id);
+    // copy.f_id = new ObjectId(copy.f_id);
     const db = getDB();
-    copy.items = [...obj.items];
+    // copy.items = [...obj.items];
     return db
       .collection("customersCollection")
       .updateOne({ _id: new ObjectId(id) }, { $addToSet: { order: copy } });

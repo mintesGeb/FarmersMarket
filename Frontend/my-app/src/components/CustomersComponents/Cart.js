@@ -5,15 +5,29 @@ import auth from "../auth";
 // const {ObjectId}  = require('../../../../../Backend/my-App/utils/database').ObjectId
 
 class Cart extends React.Component {
-  state = { customer: [], farmers: [], display: false, o_id: 1000000000001 };
+  state = {
+    customer: [],
+    farmers: [],
+    display: false,
+    o_id: Math.ceil((Math.random() + 1) * 1000000),
+    f_id: "",
+  };
   componentDidMount() {
+    console.log();
     axios
       .get("/customers/" + this.props.match.params.id, auth())
       .then((res) => {
-        console.log(res.data.customer);
+        console.log(res.data);
+
+        // console.log("cdm", res.data.customer[0].cart[0].f_id);
         let copy = { ...this.state };
+        if (res.data.customer[0].cart.length != 0) {
+          copy.f_id = res.data.customer[0].cart[0].f_id;
+        }
+
         copy.customer = res.data.customer;
         copy.display = true;
+        console.log(copy.customer);
         this.setState(copy);
       });
     axios.get("/farmers", auth()).then((res) => {
@@ -78,13 +92,20 @@ class Cart extends React.Component {
   buyProducts = (purchase) => {
     const copy = { ...purchase };
     const order = [...copy.customer[0].cart];
-    order.o_id = this.state.o_id;
+
+    let newOrder = {};
+    newOrder.o_id = this.state.o_id;
+    newOrder.data = order;
+
     this.setState(() => {
       return { o_id: this.state.o_id + 1 };
     });
-    order[0].date = new Date();
-    order[0].status = "pending";
-    console.log(order);
+
+    newOrder.date = new Date();
+    newOrder.status = "pending";
+
+    console.log(newOrder);
+    console.log("here", this.state.customer[0]);
 
     this.state.customer[0].cart.map((item) => {
       axios
@@ -101,12 +122,12 @@ class Cart extends React.Component {
     });
 
     axios
-      .put("/customers/add-order/" + copy.customer[0]._id, order, auth())
+      .put("/customers/add-order/" + copy.customer[0]._id, newOrder, auth())
       .then((res) => {
         console.log(res.data);
       });
     axios
-      .put("/farmers/add-order/" + copy.customer[0].cart.f_id, order, auth())
+      .put("/farmers/add-order/" + this.state.f_id, newOrder, auth())
       .then((res) => {
         console.log(res.data);
       });
