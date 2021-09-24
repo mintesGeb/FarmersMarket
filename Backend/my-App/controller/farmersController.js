@@ -139,5 +139,6 @@ exports.updateFarmer = (req, res) => {
 };
 
 exports.sendEmail=(req,res)=>{
-  Farmers.sendEmail(req.params.email,req.body)
+  Farmers.sendEmail(req.params.email,req.body).then((res)=>{
+  res.json(res)})
 }

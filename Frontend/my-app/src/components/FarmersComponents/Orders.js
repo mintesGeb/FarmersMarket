@@ -4,26 +4,35 @@ import auth from "../auth";
 import Order from "./Order";
 
 class Orders extends React.Component {
-  state = { f_id:'',orders: [] };
+  state = { f_id:'',orders: [], customerEmail:''};
   componentDidMount() {
     axios
       .get("/farmers/" + this.props.match.params.id, auth())
       .then((response) => {
-        // console.log(response.data.farmer[0].review);
         let copy = { ...this.state };
         copy.orders = response.data.farmer[0].orders;
         copy.f_id = response.data.farmer[0]._id;
-        this.setState(copy);
+        this.setState(()=>copy);
       });
+      
   }
 
-  makeReady = (f_id,o_id) => {
+  makeReady = (f_id,o_id,c_id) => {
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate()+1)
+    axios.get('/customers/'+c_id,auth())
+    .then((res)=>{
+      this.setState(()=>{
+        return {customerEmail : res.data.customer[0].email}});
+    })
     axios.put("/farmers/make-ready/"+f_id+"/"+o_id,null ,auth())
     .then((response)=>{
       let copy = {...this.state}
       copy.orders=[...response.data]
       this.setState(copy);
     })
+    axios.post("/farmers/send-email/"+this.state.customerEmail,tomorrow,auth())
+    .then()
   };
 
 
@@ -37,6 +46,7 @@ class Orders extends React.Component {
   };
 
   render() {
+    console.log(this.state.orders)
     return (
       <div>
         <h1 className="title">Orders</h1>
@@ -51,7 +61,7 @@ class Orders extends React.Component {
               {order.status === "pending" ? (
                 <button
                   className="btn btn-outline-dark general-margin"
-                  onClick={() => this.makeReady(this.state.f_id,order.o_id)}
+                  onClick={() => this.makeReady(this.state.f_id,order.o_id,order.c_id)}
                 >
                   Ready
                 </button>
