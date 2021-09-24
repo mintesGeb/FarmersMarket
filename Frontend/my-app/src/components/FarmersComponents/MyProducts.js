@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import auth from "../auth";
 import NewProduct from "./NewProduct";
+import Back from "../backButton";
 
 class MyProducts extends React.Component {
   state = {
@@ -98,10 +99,17 @@ class MyProducts extends React.Component {
       });
   };
 
+  backclicked = () => {
+    this.props.history.push("/");
+  };
+
   render() {
     return (
       <div>
-        <h1 className="title">My Products</h1>
+        <div className="head">
+          <Back backClicked={this.backclicked} />
+          <h1 className="title">My Products</h1>
+        </div>
 
         <input
           value="Add Product"

@@ -36,12 +36,16 @@
     transform: rotate(360deg);
   }
 }
-
+.head {
+  background-color: #3e2c41;
+  padding: 20px;
+}
 .title {
   color: white;
   /* margin: 20px auto; */
-  padding: 30px;
+  padding: 20px;
   background-color: #3e2c41;
+
   height: 100px;
 }
 .general-margin {
@@ -67,4 +71,8 @@
   margin-bottom: 0;
   position: absolute;
   /* bottom: 0px; */
+}
+
+.back {
+  border-radius: 50%;
 }

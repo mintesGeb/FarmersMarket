@@ -2,9 +2,9 @@ function Back(props) {
   return (
     <div>
       <input
-        className="btn btn-outline-dark"
+        className="btn btn-outline-light"
         type="button"
-        value="/"
+        value="<"
         onClick={props.backClicked}
       />
     </div>
