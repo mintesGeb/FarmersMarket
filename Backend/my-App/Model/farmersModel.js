@@ -218,12 +218,12 @@ class Farmers {
     const mailOptions = {
         from: 'markzackfarmer@gmail.com',
         to: emailAddress,
-        subject: 'Sending Email using Node.js',
-        text: 'Your order is ready for pickup you can pick it up in our shop at'+text
+        subject: 'Order is ready.',
+        text: 'Your order is ready for pickup you can pick it up in our shop at '+text +' date and time.'
     };
 
 
-    transporter.sendMail(mailOptions, function (error, info) {
+  return  transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
