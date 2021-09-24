@@ -125,3 +125,10 @@ exports.addOrder = (req, res) => {
     res.json(result);
   });
 };
+
+exports.updateCustomer = (req, res) => {
+  
+  Customer.updateCustomer(req.params.id, req.body).then((result) => {
+    res.json(result);
+  });
+};

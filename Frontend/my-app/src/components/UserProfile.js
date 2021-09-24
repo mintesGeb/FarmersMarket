@@ -4,7 +4,7 @@ import auth from "./auth";
 
 class UserProfile extends React.Component {
   state = {
-    user: [],
+    user: {},
     isEditing: false,
     editedUser: { firstName: "", lastName: "" },
   };
@@ -27,7 +27,10 @@ class UserProfile extends React.Component {
   }
 
   editProfile() {
-    let copy = { ...this.state.user };
+    let user = { ...this.state.user };
+    let copy = {};
+    copy.firstName = user.firstName;
+    copy.lastName = user.lastName;
     this.setState({ editedUser: copy, isEditing: !this.state.isEditing });
   }
   infoChanged = (event) => {
@@ -38,8 +41,22 @@ class UserProfile extends React.Component {
 
     this.setState({ editedUser: copy });
   };
-  editInfoSubmitted = () => {
-    console.log(this.state.editedUser);
+  editInfoSubmitted = (id) => {
+    console.log(this.state.editedUser, id);
+
+    axios
+      .put(
+        "/" + localStorage.getItem("role") + "s/" + id,
+        this.state.editedUser,
+        auth()
+      )
+      .then((res) => {
+        // console.log(res.data[0]);
+        let copy = { ...this.state };
+        copy.user = res.data[0];
+        copy.isEditing = false;
+        this.setState(copy);
+      });
   };
 
   render() {
@@ -66,7 +83,7 @@ class UserProfile extends React.Component {
             className="btn btn-outline-dark general-margin"
             onClick={() => this.editProfile()}
           >
-            Edit
+            Edit Name
           </button>
         </div>
         {this.state.isEditing ? (
@@ -91,7 +108,7 @@ class UserProfile extends React.Component {
               className="btn btn-outline-dark general-margin"
               type="button"
               value="Submit"
-              onClick={this.editInfoSubmitted}
+              onClick={() => this.editInfoSubmitted(this.state.user._id)}
             />
           </div>
         ) : null}

@@ -8,7 +8,7 @@ router.get("/", farmersController.getAllFarmers);
 router.put("/delete-review/:id/:revId", farmersController.deleteReview);
 router.get("/:id", farmersController.getOneFarmer);
 // router.post("/register", farmersController.insertFarmer);
-// router.put("/:id", farmersController.);
+router.put("/:id", farmersController.updateFarmer);
 router.delete("/:id", farmersController.deleteFarmer);
 router.put("/add-review/:id", farmersController.addReview);
 router.put("/add-order/:id", farmersController.addOrder);

@@ -132,3 +132,8 @@ exports.editProfile = (req, res) => {
     res.json(result);
   });
 };
+exports.updateFarmer = (req, res) => {
+  Farmers.updateFarmer(req.params.id, req.body).then((result) =>
+    res.json(result)
+  );
+};

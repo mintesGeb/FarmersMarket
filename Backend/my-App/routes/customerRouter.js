@@ -22,5 +22,6 @@ router.put("/add-order/:id", customersController.addOrder);
 
 // router.put("/:id", customersController.);
 router.delete("/:id", customersController.deleteCustomerbyId);
+router.put("/:id", customersController.updateCustomer);
 
 module.exports = router;

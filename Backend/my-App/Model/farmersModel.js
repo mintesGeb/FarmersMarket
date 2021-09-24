@@ -40,6 +40,21 @@ class Farmers {
       .deleteOne({ _id: new ObjectId(id) });
   }
 
+  static updateFarmer(id, nameUpdate) {
+    getDB()
+      .collection("farmersCollection")
+      .updateOne(
+        { _id: new ObjectId(id) },
+        {
+          $set: {
+            firstName: nameUpdate.firstName,
+            lastName: nameUpdate.lastName,
+          },
+        }
+      );
+    return this.getFarmerById(id);
+  }
+
   static addReview(id, review) {
     const reviewId = new ObjectId();
     const copy = { ...review };

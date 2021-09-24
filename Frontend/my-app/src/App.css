@@ -38,9 +38,10 @@
 }
 
 .title {
-  margin: 20px auto;
+  color: white;
+  /* margin: 20px auto; */
   padding: 30px;
-  background-color: burlywood;
+  background-color: #3e2c41;
   height: 100px;
 }
 .general-margin {
@@ -52,4 +53,18 @@
   border: cadetblue dotted 1px;
   padding: 20px;
   width: 200px;
+}
+
+.par {
+  text-align: center;
+  width: 70%;
+  margin: 20px auto;
+}
+
+.footer {
+  background-color: #6e85b2;
+  height: 200px;
+  margin-bottom: 0;
+  position: absolute;
+  /* bottom: 0px; */
 }

@@ -4,6 +4,7 @@ import { Route, BrowserRouter, Link, Switch } from "react-router-dom";
 import React from "react";
 import axios from "axios";
 import auth from "./components/auth";
+import { Nav, Navbar, Container } from "react-bootstrap";
 
 import Login from "./Login";
 import Logout from "./Logout";
@@ -34,7 +35,7 @@ class App extends React.Component {
       isLoggedIn: false,
       setToTrue: this.setToTrue,
       setToFalse: this.setToFalse,
-      id: ""
+      id: "",
     };
   }
 
@@ -47,15 +48,16 @@ class App extends React.Component {
   }
 
   setToTrue = () => {
-    if(localStorage.getItem("role")==="customer")
-    {axios.get('/customers/email/' + localStorage.getItem("email"), auth())
-      .then((res) => {
-        this.setState(() => {
-          return {id:res.data.result[0]._id}
-        })
-      })}
+    if (localStorage.getItem("role") === "customer") {
+      axios
+        .get("/customers/email/" + localStorage.getItem("email"), auth())
+        .then((res) => {
+          this.setState(() => {
+            return { id: res.data.result[0]._id };
+          });
+        });
+    }
     this.setState({ isLoggedIn: true });
-
   };
   setToFalse = () => {
     this.setState({ isLoggedIn: false });
@@ -67,77 +69,62 @@ class App extends React.Component {
     this.setToFalse();
   };
 
-  showCart = () => {
-
-  }
+  showCart = () => {};
 
   render() {
     return (
       <BrowserRouter>
+        <div>
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="/">Farmers Market</Navbar.Brand>
+              <Nav className="me-auto">
+                {this.state.isLoggedIn === true ? null : (
+                  <div>
+                    <Nav.Link href="/login">Login</Nav.Link>
+
+                    <Nav.Link href="/register">Register</Nav.Link>
+                  </div>
+                )}
+                {this.state.isLoggedIn === false ? null : (
+                  <div>
+                    {localStorage.getItem("role") === "farmer" ? null : (
+                      <Nav.Link href="/farmers">Farmers</Nav.Link>
+                    )}
+                    {localStorage.getItem("role") === "farmer" ? (
+                      <Nav.Link href="/my-products">My Products</Nav.Link>
+                    ) : (
+                      <Nav.Link href="/products">Products</Nav.Link>
+                    )}
+                    {localStorage.getItem("role") === "superuser" ? (
+                      <Nav.Link href="/customers">Customers</Nav.Link>
+                    ) : (
+                      <Nav.Link href="/profile">Profile</Nav.Link>
+                    )}
+                    {localStorage.getItem("role") === "customer" ? (
+                      <Nav.Link href={"/customers/cart/" + this.state.id}>
+                        Cart
+                      </Nav.Link>
+                    ) : null}
+
+                    <Nav.Link href="/logout" onClick={this.loggedOut}>
+                      Logout
+                    </Nav.Link>
+                  </div>
+                )}
+              </Nav>
+            </Container>
+          </Navbar>
+        </div>
+
         <div className="App">
-          {this.state.isLoggedIn === true ? null : (
-            <div>
-              <ul>
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="/register">Register</Link>
-                </li>
-              </ul>
-            </div>
-          )}
-          {this.state.isLoggedIn === false ? null : (
-            <div>
-              <ul>
-                {localStorage.getItem("role") === "farmer" ? null : (
-                  <li>
-                    <Link to="/farmers">Farmers</Link>
-                  </li>
-                )}
-                {localStorage.getItem("role") === "farmer" ? (
-                  <li>
-                    <Link to="/my-products">My Products</Link>
-                  </li>
-                ) : (
-                  <li>
-                    <Link to="/products">Products</Link>
-                  </li>
-                )}
-                {localStorage.getItem("role") === "superuser" ? (
-                  <li>
-                    <Link to="/customers">Customers</Link>
-                  </li>
-                ) : (
-                  <li>
-                    <Link to="/profile">Profile</Link>
-                  </li>
-                )}
-                {localStorage.getItem("role") === "customer" ? (
-                  <li>
-                  <Link to={"/customers/cart/"+this.state.id}>
-                    Cart
-                  </Link>
-                </li>) : null}
-
-
-                <li>
-                  <Link to="/logout" onClick={this.loggedOut}>
-                    Logout
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          )}
-
-          <hr />
           {/* <Switch> */}
           <Route path="/login" component={Login}>
             <LoginContext.Provider value={this.state}>
               <Login></Login>
             </LoginContext.Provider>
           </Route>
-          <Route exact path="/" component={Home}/>
+          <Route exact path="/" component={Home} />
           <Route path="/register" component={Register} />
           <Route path="/products" component={Products} />
           <Route path="/my-products" component={MyProducts} />
@@ -159,6 +146,7 @@ class App extends React.Component {
             component={FarmerProfileEdit}
           />
         </div>
+        <div className="footer"></div>
       </BrowserRouter>
     );
   }
