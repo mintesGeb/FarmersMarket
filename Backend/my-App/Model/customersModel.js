@@ -1,5 +1,6 @@
 const getDB = require("../utils/database").getDB;
 const ObjectId = require("../utils/database").ObjectId;
+const Farmer = require("../Model/farmersModel");
 
 class Customer {
   constructor(firstName, lastName, email, password) {
@@ -52,10 +53,23 @@ class Customer {
   static addToCart(id, object) {
     const db = getDB();
     //if(object.quantity)
-    return db
-      .collection("customersCollection")
-      .updateOne({ _id: new ObjectId(id) }, { $addToSet: { cart: object } });
-    // this.cart.push()
+    let copy = { ...object };
+    let numProd = copy.numberOfProducts;
+    copy.f_id = new ObjectId(object.f_id);
+    copy.p_id = new ObjectId(object.p_id);
+    copy.numberOfProducts = 1;
+
+    db.collection("farmersCollection").updateOne(
+      { _id: copy.f_id, "products.p_id": copy.p_id },
+      { $set: { "products.$.numberOfProducts": numProd - 1 } }
+    );
+
+    db.collection("customersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $addToSet: { cart: copy } }
+    );
+
+    return Farmer.getFarmerById(copy.f_id);
   }
 
   static addOrder(id, obj) {
