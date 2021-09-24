@@ -5,7 +5,7 @@ import auth from "../auth";
 // const {ObjectId}  = require('../../../../../Backend/my-App/utils/database').ObjectId
 
 class Cart extends React.Component {
-  state = { customer: [], farmers: [], display: false, o_id:1000000000001};
+  state = { customer: [], farmers: [], display: false, o_id: 1000000000001 };
   componentDidMount() {
     axios
       .get("/customers/" + this.props.match.params.id, auth())
@@ -78,10 +78,10 @@ class Cart extends React.Component {
   buyProducts = (purchase) => {
     const copy = { ...purchase };
     const order = [...copy.customer[0].cart];
-    order.o_id= this.state.o_id
-    this.setState(()=>{
-      return {o_id: this.state.o_id+1}
-    })
+    order.o_id = this.state.o_id;
+    this.setState(() => {
+      return { o_id: this.state.o_id + 1 };
+    });
     order[0].date = new Date();
     order[0].status = "pending";
     console.log(order);

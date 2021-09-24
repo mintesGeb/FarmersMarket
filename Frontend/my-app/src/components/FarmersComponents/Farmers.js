@@ -57,30 +57,32 @@ class Farmers extends React.Component {
         ) : (
           <h1 className="title">Farmers</h1>
         )}
-        {this.state.farmers.sort((a, b) => b.reputation - a.reputation).map((far) => {
-          return (
-            <div>
-              <Farmer
-                key={far._id}
-                farmer={far}
-                displayProducts={() => this.displayProducts(far._id)}
-                displayReviews={() => this.displayReviews(far._id)}
-                showProfile={() => this.showProfile(far._id)}
-              />
+        {this.state.farmers
+          .sort((a, b) => b.reputation - a.reputation)
+          .map((far) => {
+            return (
+              <div>
+                <Farmer
+                  key={far._id}
+                  farmer={far}
+                  displayProducts={() => this.displayProducts(far._id)}
+                  displayReviews={() => this.displayReviews(far._id)}
+                  showProfile={() => this.showProfile(far._id)}
+                />
 
-              {localStorage.getItem("role") === "farmer" ||
+                {localStorage.getItem("role") === "farmer" ||
                 localStorage.getItem("role") === "superuser" ? (
-                <button
-                  className="btn btn-outline-dark "
-                  onClick={() => this.showOrders(far._id)}
-                >
-                  Orders
-                </button>
-              ) : null}
-              <hr />
-            </div>
-          );
-        })}
+                  <button
+                    className="btn btn-outline-dark "
+                    onClick={() => this.showOrders(far._id)}
+                  >
+                    Orders
+                  </button>
+                ) : null}
+                <hr />
+              </div>
+            );
+          })}
       </div>
     );
   }
