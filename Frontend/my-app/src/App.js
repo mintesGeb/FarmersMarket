@@ -22,6 +22,7 @@ import UserProfile from "./components/UserProfile";
 import FarmersProfile from "./components/FarmersComponents/FarmersProfile";
 import FarmerProfileEdit from "./components/FarmersComponents/FarmerProfileEdit";
 import MyProducts from "./components/FarmersComponents/MyProducts";
+import Home from "./components/Home";
 
 export const LoginContext = React.createContext();
 
@@ -136,6 +137,7 @@ class App extends React.Component {
               <Login></Login>
             </LoginContext.Provider>
           </Route>
+          <Route exact path="/" component={Home}/>
           <Route path="/register" component={Register} />
           <Route path="/products" component={Products} />
           <Route path="/my-products" component={MyProducts} />
