@@ -137,3 +137,7 @@ exports.updateFarmer = (req, res) => {
     res.json(result)
   );
 };
+
+exports.sendEmail=(req,res)=>{
+  Farmers.sendEmail(req.params.email,req.body)
+}
