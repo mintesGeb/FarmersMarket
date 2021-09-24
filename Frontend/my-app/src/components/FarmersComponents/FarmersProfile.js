@@ -35,7 +35,7 @@ class FarmersProfile extends React.Component {
             <p>
               Last Name: <b>{this.state.farmer.lastName}</b>
             </p>
-            <p>
+            {localStorage.getItem("role")!=="customer" ? <div><p>
               Email: <b>{this.state.farmer.email}</b>
             </p>
             <p>
@@ -49,7 +49,7 @@ class FarmersProfile extends React.Component {
               onClick={this.editProfile}
             >
               Edit
-            </button>
+            </button></div> : null}
           </div>
         ) : null}
       </div>

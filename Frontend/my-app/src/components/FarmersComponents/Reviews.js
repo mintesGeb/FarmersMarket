@@ -4,14 +4,16 @@ import auth from "../auth";
 import Review from "./Review";
 
 class Reviews extends React.Component {
-  state = { reviews: [] };
+  state = { reviews: [] ,farmer:{}};
   componentDidMount() {
     axios
       .get("/farmers/" + this.props.match.params.id, auth())
       .then((response) => {
         // console.log(response.data.farmer[0].review);
         let copy = { ...this.state };
+        copy.farmer ={...response.data.farmer[0]}
         copy.reviews = response.data.farmer[0].review;
+        console.log(copy)
         this.setState(copy);
       });
   }
@@ -29,7 +31,7 @@ class Reviews extends React.Component {
               ) : (
                 <p>⭐</p>
               )}
-              <Review title={rev.title} description={rev.description} />
+              <Review title={rev.title} description={rev.description} farmerId={this.state.farmer._id} />
             </div>
           );
         })}
