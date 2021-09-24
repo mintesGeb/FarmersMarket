@@ -37,7 +37,7 @@ class Farmers extends React.Component {
     return (
       <div>
         <h1 className="title">Farmers</h1>
-        {this.state.farmers.map((far) => {
+        {this.state.farmers.sort((a,b)=>b.reputation-a.reputation).map((far) => {
           return (
             <div>
               <Farmer

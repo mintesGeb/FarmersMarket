@@ -4,7 +4,7 @@ import axios from "axios";
 import auth from "../auth";
 
 class FarmersProfile extends React.Component {
-  state = { farmer: [], display: true };
+  state = { farmer: {}, display: true };
 
   componentDidMount() {
     axios
@@ -18,10 +18,33 @@ class FarmersProfile extends React.Component {
   }
 
   editProfile = () => {
+    console.log(this.state.farmer)
     this.props.history.push(
       "/farmer/profile/" + this.props.match.params.id + "/edit"
     );
   };
+
+  changeStatus = () => {
+    if (this.state.farmer.status === "active") {
+      axios.put('/farmers/deactivate-status/'+this.state.farmer._id,null,auth())
+      .then((res)=>{
+     this.setState(()=>{
+       const copy = {...res.data[0]}
+          console.log(copy)
+       return {farmer:copy}
+     })
+      })
+    } else {
+      axios.put('/farmers/activate-status/'+this.state.farmer._id,null,auth())
+      .then((res)=>{
+        this.setState(()=>{
+          const copy = {...res.data[0]}
+          console.log(copy)
+          return {farmer:copy}
+        })
+      })
+    }
+  }
 
   render() {
     return (
@@ -50,6 +73,13 @@ class FarmersProfile extends React.Component {
             >
               Edit
             </button></div> : null}
+            {localStorage.getItem("role")==="superuser"? <div>{this.state.farmer.status === "active" ? <button
+              className="btn btn-outline-dark general-margin"
+              onClick={() => this.changeStatus()}
+            >Deactivate User</button> : <button
+              className="btn btn-outline-dark general-margin"
+              onClick={() => this.changeStatus()}
+            >Activate User</button>}</div>: null}
           </div>
         ) : null}
       </div>
