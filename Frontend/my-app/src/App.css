@@ -76,3 +76,11 @@
 .back {
   border-radius: 50%;
 }
+
+.cartItems {
+  border-radius: 10%;
+  margin: 5px;
+  padding: 3.5px 9px;
+  background-color: orangered;
+  color: white;
+}

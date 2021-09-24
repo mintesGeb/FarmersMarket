@@ -45,6 +45,7 @@ class App extends React.Component {
       setToTrue: this.setToTrue,
       setToFalse: this.setToFalse,
       id: "",
+      cartItems: "",
     };
   }
 
@@ -61,8 +62,12 @@ class App extends React.Component {
       axios
         .get("/customers/email/" + localStorage.getItem("email"), auth())
         .then((res) => {
+          // console.log(res.data.result[0].cart.length)
           this.setState(() => {
-            return { id: res.data.result[0]._id };
+            return {
+              id: res.data.result[0]._id,
+              cartItems: res.data.result[0].cart.length,
+            };
           });
         });
     }
@@ -114,9 +119,18 @@ class App extends React.Component {
                       <Nav.Link href="/profile">Profile</Nav.Link>
                     )}
                     {localStorage.getItem("role") === "customer" ? (
-                      <Nav.Link href={"/customers/cart/" + this.state.id}>
-                        Cart
-                      </Nav.Link>
+                      <div>
+                        <Nav.Link href={"/customers/cart/" + this.state.id}>
+                          <b>Cart</b>
+
+                          <span className="cartItems">
+                            {this.state.cartItems}
+                          </span>
+                        </Nav.Link>
+                        <Nav.Link href={"/customers/orders/" + this.state.id}>
+                          <b>Orders</b>
+                        </Nav.Link>
+                      </div>
                     ) : null}
 
                     <Nav.Link href="/logout" onClick={this.loggedOut}>
