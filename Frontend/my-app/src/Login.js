@@ -20,7 +20,7 @@ class Login extends React.Component {
       this.state.user.email === "" ||
       this.state.user.password === ""
     ) {
-      console.log("Please enter Credentials");
+      alert("Please enter valid email, password and role.");
     } else {
       // console.log(this.state.user);
       axios.post("/login", this.state.user).then((response) => {
@@ -32,7 +32,7 @@ class Login extends React.Component {
           this.setState({ display: false });
           callback();
           console.log(this.props);
-        }
+        }else alert("Please enter Valid email, password and role.");
       });
     }
   };
