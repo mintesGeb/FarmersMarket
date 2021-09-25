@@ -30,6 +30,7 @@ export default class ProductDetail extends Component {
     let copy = { ...prod };
     copy.f_id = this.state.farmer[0]._id;
     console.log(copy.numberOfProducts);
+    copy.c_id=this.state.c_id;
     if (copy.numberOfProducts > 0) {
       axios
         .post("/customers/addtocart/" + this.state.c_id, copy, auth())

@@ -1,6 +1,6 @@
 const getDB = require("../utils/database").getDB;
 const ObjectId = require("../utils/database").ObjectId;
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 class Farmers {
   constructor(firstName, lastName, email, password) {
@@ -61,10 +61,11 @@ class Farmers {
     const copy = { ...review };
     copy.id = reviewId;
     const db = getDB();
-     db
-      .collection("farmersCollection")
-      .updateOne({ _id: new ObjectId(id) }, { $addToSet: { review: copy } });
-      return this.getFarmerById(id);
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $addToSet: { review: copy } }
+    );
+    return this.getFarmerById(id);
   }
 
   static deleteReview(id, reviewId) {
@@ -128,8 +129,9 @@ class Farmers {
 
   static makeReady(id, orderId) {
     const db = getDB();
+    console.log(id, orderId);
     db.collection("farmersCollection").updateOne(
-      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { _id: new ObjectId(id), "orders.o_id": Number(orderId) },
       { $set: { "orders.$.status": "ready" } }
     );
     return this.getFarmerById(id);
@@ -138,7 +140,7 @@ class Farmers {
   static makeComplete(id, orderId) {
     const db = getDB();
     db.collection("farmersCollection").updateOne(
-      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { _id: new ObjectId(id), "orders.o_id": Number(orderId) },
       { $set: { "orders.$.status": "complete" } }
     );
     return this.getFarmerById(id);
@@ -146,18 +148,20 @@ class Farmers {
 
   static activateStatus(id) {
     const db = getDB();
-     db
-      .collection("farmersCollection")
-      .updateOne({ _id: new ObjectId(id) }, { $set: { status: "active" } });
-      return this.getFarmerById(id);
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status: "active" } }
+    );
+    return this.getFarmerById(id);
   }
 
   static deactivateStatus(id) {
     const db = getDB();
-     db
-      .collection("farmersCollection")
-      .updateOne({ _id: new ObjectId(id) }, { $set: { status: "inactive" } });
-      return this.getFarmerById(id);
+    db.collection("farmersCollection").updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { status: "inactive" } }
+    );
+    return this.getFarmerById(id);
   }
 
   static getFarmerByEmail(email) {
@@ -168,7 +172,7 @@ class Farmers {
   static addReputation(id) {
     const db = getDB();
     return this.getFarmerById(id).then((result) => {
-      const rep =  result[0].reputation + 1;
+      const rep = result[0].reputation + 1;
       db.collection("farmersCollection").updateOne(
         { _id: new ObjectId(id) },
         { $set: { reputation: rep } }
@@ -181,10 +185,10 @@ class Farmers {
     const db = getDB();
     return this.getFarmerById(id).then((result) => {
       if (result[0].reputation > 0) {
-        const rep = result[0].reputation - 1
+        const rep = result[0].reputation - 1;
         db.collection("farmersCollection").updateOne(
           { _id: new ObjectId(id) },
-          { $set: { reputation: rep} }
+          { $set: { reputation: rep } }
         );
       }
       return this.getFarmerById(id);
@@ -206,32 +210,32 @@ class Farmers {
   }
 
   static sendEmail(emailAddress, text) {
-
     const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'markzackfarmer@gmail.com',
-            pass: 'Markzack123'
-        }
+      service: "gmail",
+      auth: {
+        user: "markzackfarmer@gmail.com",
+        pass: "Markzack123",
+      },
     });
 
     const mailOptions = {
-        from: 'markzackfarmer@gmail.com',
-        to: emailAddress,
-        subject: 'Order is ready.',
-        text: 'Your order is ready for pickup you can pick it up in our shop at '+text +' date and time.'
+      from: "markzackfarmer@gmail.com",
+      to: "mgebre@miu.edu",
+      subject: "Order is ready.",
+      text:
+        "Your order is ready for pickup you can pick it up in our shop at " +
+        text +
+        " date and time.",
     };
 
-
-  return  transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
+    return transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
     });
-}
-
+  }
 }
 
 module.exports = Farmers;

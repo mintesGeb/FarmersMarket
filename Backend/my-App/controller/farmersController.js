@@ -86,6 +86,7 @@ exports.addOrder = (req, res) => {
 };
 
 exports.makeReady = (req, res) => {
+  console.log(req.params.id, req.params.orderId);
   Farmers.makeReady(req.params.id, req.params.orderId).then((result) => {
     res.json(result[0]["orders"]);
   });
@@ -138,7 +139,8 @@ exports.updateFarmer = (req, res) => {
   );
 };
 
-exports.sendEmail=(req,res)=>{
-  Farmers.sendEmail(req.params.email,req.body).then((res)=>{
-  res.json(res)})
-}
+exports.sendEmail = (req, res) => {
+  Farmers.sendEmail(req.params.email, req.body).then((res) => {
+    res.json(res);
+  });
+};

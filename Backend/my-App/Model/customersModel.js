@@ -55,6 +55,7 @@ class Customer {
     //if(object.quantity)
     let copy = { ...object };
     let numProd = copy.numberOfProducts;
+    copy.c_id = new ObjectId(object.c_id);
     copy.f_id = new ObjectId(object.f_id);
     copy.p_id = new ObjectId(object.p_id);
     copy.numberOfProducts = 1;
@@ -116,7 +117,7 @@ class Customer {
   static makeReady(id, orderId) {
     const db = getDB();
     db.collection("customersCollection").updateOne(
-      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { _id: new ObjectId(id), "orders.o_id": Number(orderId) },
       { $set: { "orders.$.status": "ready" } }
     );
     return this.getFarmerById(id);
@@ -125,7 +126,7 @@ class Customer {
   static makeComplete(id, orderId) {
     const db = getDB();
     db.collection("customersCollection").updateOne(
-      { _id: new ObjectId(id), "orders.o_id": new ObjectId(orderId) },
+      { _id: new ObjectId(id), "orders.o_id": Number(orderId) },
       { $set: { "orders.$.status": "complete" } }
     );
     return this.getFarmerById(id);
