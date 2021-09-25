@@ -6,14 +6,12 @@ import auth from "../auth";
 class FarmerProfileEdit extends React.Component {
   state = { farmer: {}, display: false };
   componentDidMount() {
-    axios
-      .get("/farmers/" + this.props.match.params.id, auth())
-      .then((res) => {
-        let copy = { ...this.state };
-        copy.farmer = res.data.farmer[0];
-        copy.display = true;
-        this.setState(copy);
-      });
+    axios.get("/farmers/" + this.props.match.params.id, auth()).then((res) => {
+      let copy = { ...this.state };
+      copy.farmer = res.data.farmer[0];
+      copy.display = true;
+      this.setState(copy);
+    });
   }
   infoChanged = (event) => {
     let copy = { ...this.state };
@@ -22,7 +20,18 @@ class FarmerProfileEdit extends React.Component {
   };
   editInfoSubmitted = (farmer) => {
     //this.props.history.push("/farmers/profile/" + this.state.farmer._id);
-    console.log("enter");
+    // console.log(this.state.farmer);
+
+    axios
+      .put("/farmers/" + this.props.match.params.id, this.state.farmer, auth())
+
+      .then((res) => {
+        console.log(res.data[0]);
+
+        this.setState(() => {
+          return { farmer: res.data[0] };
+        });
+      });
   };
   render() {
     return (
@@ -30,13 +39,15 @@ class FarmerProfileEdit extends React.Component {
         <h1 className="title">Profile Edit</h1>
         {this.state.display ? (
           <div>
-            First Name: <input
+            First Name:{" "}
+            <input
               name="firstName"
               type="text"
               defaultValue={this.state.farmer.firstName}
               onChange={(event) => this.infoChanged(event)}
             />
-            Last Name<input
+            Last Name
+            <input
               name="lastName"
               type="text"
               defaultValue={this.state.farmer.lastName}
@@ -54,7 +65,8 @@ class FarmerProfileEdit extends React.Component {
               value={this.state.farmer.email}
               onChange={(event) => this.infoChanged(event)}
             /> */}
-            Password: <input
+            Password:{" "}
+            <input
               name="password"
               type="text"
               defaultValue={this.state.farmer.password}
