@@ -4,21 +4,22 @@ import auth from "../auth";
 import Order from "./Order";
 
 class Orders extends React.Component {
-  state = { f_id: "", orders: [], customerEmail: "" };
+  state = { f_id: "", orders: [], customerEmail: "", display: false };
   componentDidMount() {
     axios
       .get("/farmers/" + this.props.match.params.id, auth())
       .then((response) => {
         console.log(response.data);
         let copy = { ...this.state };
-        console.log(response.data.farmer[0].orders[0].data[0].c_id);
-
-        // console.log(response.data.farmer[0].orders.data[0].c_id);
-
-        copy.orders = response.data.farmer[0].orders;
-        copy.c_id = response.data.farmer[0].orders[0].data[0].c_id;
-        copy.f_id = response.data.farmer[0]._id;
-        console.log(copy.orders);
+        if (response.data.farmer[0].orders) {
+          if (response.data.farmer[0].orders[0]) {
+            console.log(response.data.farmer[0].orders[0].data[0].c_id);
+            copy.orders = response.data.farmer[0].orders;
+            copy.c_id = response.data.farmer[0].orders[0].data[0].c_id;
+            copy.f_id = response.data.farmer[0]._id;
+            copy.display = true;
+          }
+        }
         this.setState(() => copy);
       });
   }
@@ -61,7 +62,7 @@ class Orders extends React.Component {
     axios
       .put("/customers/make-complete/" + c_id + "/" + o_id, null, auth())
       .then((response) => {
-        console.log("email",response);
+        console.log("email", response);
       });
   };
 
@@ -70,47 +71,52 @@ class Orders extends React.Component {
     return (
       <div>
         <h1 className="title">Orders</h1>
-        {this.state.orders.map((order) => {
-          return (
-            <div>
-              <Order
-                // cust={order.data.c_id}
-                // prod={order.data[0].p_id}
-                order_id={order.o_id}
-                status={order.status}
-                date={order.date}
-              />
-              {order.status === "pending" ? (
-                <button
-                  className="btn btn-outline-dark general-margin"
-                  onClick={() =>
-                    this.makeReady(this.state.f_id, order.o_id, this.state.c_id)
-                  }
-                >
-                  Ready
-                </button>
-              ) : order.status === "ready" ? (
-                <button
-                  className="btn btn-outline-dark general-margin"
-                  onClick={() =>
-                    this.makeComplete(
-                      this.state.f_id,
-                      order.o_id,
-                      this.state.c_id
-                    )
-                  }
-                >
-                  Complete
-                </button>
-              ) : order.status === "complete" ? (
-                <button className="btn btn-outline-dark general-margin">
-                  ✔
-                </button>
-              ) : null}
-              <hr />
-            </div>
-          );
-        })}
+        {this.state.display &&
+          this.state.orders.map((order) => {
+            return (
+              <div>
+                <Order
+                  // cust={order.data.c_id}
+                  // prod={order.data[0].p_id}
+                  order_id={order.o_id}
+                  status={order.status}
+                  date={order.date}
+                />
+                {order.status === "pending" ? (
+                  <button
+                    className="btn btn-outline-dark general-margin"
+                    onClick={() =>
+                      this.makeReady(
+                        this.state.f_id,
+                        order.o_id,
+                        this.state.c_id
+                      )
+                    }
+                  >
+                    Ready
+                  </button>
+                ) : order.status === "ready" ? (
+                  <button
+                    className="btn btn-outline-dark general-margin"
+                    onClick={() =>
+                      this.makeComplete(
+                        this.state.f_id,
+                        order.o_id,
+                        this.state.c_id
+                      )
+                    }
+                  >
+                    Complete
+                  </button>
+                ) : order.status === "complete" ? (
+                  <button className="btn btn-outline-dark general-margin">
+                    ✔
+                  </button>
+                ) : null}
+                <hr />
+              </div>
+            );
+          })}
       </div>
     );
   }
