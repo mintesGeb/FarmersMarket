@@ -84,3 +84,8 @@
   background-color: orangered;
   color: white;
 }
+
+.rightSide {
+  position: absolute;
+  right: 20%;
+}

@@ -6,6 +6,7 @@ import {
   BrowserRouter,
   Link,
   Switch,
+  Redirect,
 } from "react-router-dom";
 // import { ReactRouter } from "react-router";
 import React from "react";
@@ -33,6 +34,7 @@ import FarmerProfileEdit from "./components/FarmersComponents/FarmerProfileEdit"
 import MyProducts from "./components/FarmersComponents/MyProducts";
 import Home from "./components/Home";
 import Back from "./components/backButton";
+import NotFound from "./components/NotFound";
 
 export const LoginContext = React.createContext();
 
@@ -102,21 +104,21 @@ class App extends React.Component {
                 )}
                 {this.state.isLoggedIn === false ? null : (
                   <div>
-                    {localStorage.getItem("role") === "farmer" ? (
-                      // <Nav.Link href="/farmer">Orders & Reviews</Nav.Link>
-                      <Nav.Link href="/farmers">Orders & Review</Nav.Link>
-                    ) : (
-                      <Nav.Link href="/farmers">Farmers</Nav.Link>
-                    )}
-                    {localStorage.getItem("role") === "farmer" ? (
-                      <Nav.Link href="/my-products">My Products</Nav.Link>
-                    ) : (
-                      <Nav.Link href="/products">Products</Nav.Link>
-                    )}
                     {localStorage.getItem("role") === "superuser" ? (
                       <Nav.Link href="/customers">Customers</Nav.Link>
                     ) : (
                       <Nav.Link href="/profile">Profile</Nav.Link>
+                    )}
+                    {localStorage.getItem("role") === "farmer" ? (
+                      <div>
+                        <Nav.Link href="/my-products">My Products</Nav.Link>
+                        <Nav.Link href="/farmers">Orders & Review</Nav.Link>
+                      </div>
+                    ) : (
+                      <div>
+                        <Nav.Link href="/farmers">Farmers</Nav.Link>
+                        <Nav.Link href="/products">Products</Nav.Link>
+                      </div>
                     )}
                     {localStorage.getItem("role") === "customer" ? (
                       <div>
@@ -133,7 +135,11 @@ class App extends React.Component {
                       </div>
                     ) : null}
 
-                    <Nav.Link href="/logout" onClick={this.loggedOut}>
+                    <Nav.Link
+                      href="/logout"
+                      onClick={this.loggedOut}
+                      className="rightSide"
+                    >
                       Logout
                     </Nav.Link>
                     <br />
@@ -165,7 +171,6 @@ class App extends React.Component {
           <Route path="/farmer/product/:id" component={ProductDetail} />
           <Route path="/farmer/reviews/:id" component={Reviews} />
           <Route path="/farmer/orders/:id" component={Orders} />
-          {/* </Switch> */}
           <Route path="/customers/cart/:id" component={Cart} />
           <Route path="/customers/profile/:id" component={Profile} />
           <Route path="/customers/profile/:id/edit" component={ProfileEdit} />
@@ -175,6 +180,9 @@ class App extends React.Component {
             path="/farmer/profile/:id/edit"
             component={FarmerProfileEdit}
           />
+          {/* <Route path="/not-found" component={NotFound} />
+            <Redirect to="/not-found" />
+          </Switch> */}
         </div>
         <div className="footer"></div>
       </BrowserRouter>
